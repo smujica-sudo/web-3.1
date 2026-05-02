@@ -149,7 +149,8 @@
         .flavor-pills { display: flex; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
         .f-pill { background: rgba(0, 56, 255, 0.05); color: var(--accent-alt); padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
 
-        .radar-box { width: 100%; max-width: 350px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .radar-box { width: 100%; max-width: 350px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 50%; box-shadow: 0 10px 40px rgba(0,0,0,0.06); transition: 0.3s; }
+        .radar-box:hover { box-shadow: 0 15px 50px rgba(0, 56, 255, 0.1); transform: scale(1.02); }
 
         .variant-group { margin-bottom: 35px; }
         .variant-group h4 { font-family: var(--font-head); font-size: 14px; text-transform: uppercase; margin-bottom: 15px; color: #888; }
@@ -705,7 +706,7 @@
             
             grid.innerHTML = items.map(p => `
                 <div class="card reveal" data-action="view-product" data-id="${p.id}">
-                    <div class="card-img img-parallax-container"><img src="${p.img}" class="parallax-target" style="transform:scale(1.1);" loading="lazy"></div>
+                    <div class="card-img"><img src="${p.img}" loading="lazy"></div>
                     <div class="card-body">
                         <div class="card-meta">${p.badge}</div>
                         <h3 class="card-title">${p.name}</h3>
@@ -762,7 +763,7 @@
             document.getElementById('product-target').innerHTML = `
                 <div class="detail-split reveal active">
                     <div class="detail-left">
-                        <div class="detail-img-box img-parallax-container"><img src="${p.img}" class="parallax-target"></div>
+                        <div class="detail-img-box"><img src="${p.img}"></div>
                         ${radarHtml}
                     </div>
                     <div class="detail-info">
@@ -784,13 +785,61 @@
                 setTimeout(() => {
                     const ctx = document.getElementById('radarChart');
                     if(AppState.sensoryChart) AppState.sensoryChart.destroy();
+                    
                     AppState.sensoryChart = new Chart(ctx, {
                         type: 'radar',
                         data: {
                             labels: ['Dulzor', 'Acidez', 'Cuerpo', 'Floral', 'Postgusto'],
-                            datasets: [{ data: p.radar, backgroundColor: 'rgba(57, 255, 20, 0.2)', borderColor: '#39FF14', pointBackgroundColor: '#0038FF', pointHoverRadius: 8, borderWidth: 2, tension: 0.3 }]
+                            datasets: [{
+                                label: 'Perfil Sensorial',
+                                data: p.radar,
+                                backgroundColor: 'rgba(57, 255, 20, 0.2)',
+                                borderColor: '#39FF14',
+                                pointBackgroundColor: '#0D0D0D',
+                                pointBorderColor: '#39FF14',
+                                pointHoverBackgroundColor: '#0038FF',
+                                pointHoverBorderColor: '#fff',
+                                pointHoverRadius: 8,
+                                pointRadius: 4,
+                                borderWidth: 2,
+                                tension: 0.4
+                            }]
                         },
-                        options: { scales: { r: { min: 0, max: 10, ticks:{display:false} } }, plugins: { legend:{display:false}, tooltip: {backgroundColor: '#0D0D0D', titleFont: {family: 'Syne'}} }, interaction: { mode: 'index', intersect: false } }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                r: {
+                                    min: 0,
+                                    max: 10,
+                                    ticks: { display: false },
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    angleLines: { color: 'rgba(0,0,0,0.1)' },
+                                    pointLabels: {
+                                        font: { family: 'Inter', size: 11, weight: '600' },
+                                        color: '#666'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#0D0D0D',
+                                    titleFont: { family: 'Syne', size: 14 },
+                                    bodyFont: { family: 'JetBrains Mono', size: 13 },
+                                    padding: 15,
+                                    cornerRadius: 4,
+                                    displayColors: false,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Intensidad: ${context.raw}/10`;
+                                        }
+                                    }
+                                }
+                            },
+                            interaction: { mode: 'nearest', intersect: true },
+                            animation: { duration: 1200, easing: 'easeOutQuart' }
+                        }
                     });
                 }, 100);
             }
@@ -891,7 +940,7 @@
                 const grid = document.getElementById('ai-results');
                 grid.innerHTML = results.map(p => `
                     <div class="card reveal active" data-action="view-product" data-id="${p.id}">
-                        <div class="card-img img-parallax-container"><img src="${p.img}" class="parallax-target" style="transform:scale(1.1);"></div>
+                        <div class="card-img"><img src="${p.img}"></div>
                         <div class="card-body">
                             <div class="card-meta">${p.badge}</div>
                             <h3 class="card-title">${p.name}</h3>
@@ -1013,9 +1062,8 @@
         if(rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
             const scrolled = window.scrollY;
-            document.querySelectorAll('.parallax-target, .parallax-bg').forEach(el => {
-                const speed = el.classList.contains('parallax-bg') ? 0.4 : 0.15;
-                el.style.transform = `translate3d(0, ${scrolled * speed}px, 0)`;
+            document.querySelectorAll('.parallax-bg').forEach(el => {
+                el.style.transform = `translate3d(0, ${scrolled * 0.4}px, 0)`;
             });
             if(scrolled > 50) UI.nav.classList.add('scrolled');
             else UI.nav.classList.remove('scrolled');
@@ -1059,7 +1107,7 @@
                     const items = DB.catalog.filter(c => c.cat === 'origin' || c.cat === 'blend').slice(0,4);
                     fGrid.innerHTML = items.map(p => `
                         <div class="card reveal active" data-action="view-product" data-id="${p.id}">
-                            <div class="card-img img-parallax-container"><img src="${p.img}" class="parallax-target" style="transform:scale(1.1);"></div>
+                            <div class="card-img"><img src="${p.img}"></div>
                             <div class="card-body">
                                 <div class="card-meta">${p.badge}</div>
                                 <h3 class="card-title">${p.name}</h3>
