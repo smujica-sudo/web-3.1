@@ -14,10 +14,10 @@
     <style>
         /* --- VARIABLES SENSORIALES --- */
         :root {
-            --bg: #F8F7F2;          
-            --dark: #0F0F0F;        
-            --surface: #FFFFFF;     
-            --accent: #39FF14;      
+            --bg: #F8F7F2;          /* Papel de archivo / Crema */
+            --dark: #0F0F0F;        /* Negro carbón mate */
+            --surface: #FFFFFF;     /* Blanco puro */
+            --accent: #39FF14;      /* Verde Neón Fosforescente */
             --border: #1A1A1A;
             --font-main: 'Inter', sans-serif;
             --font-head: 'Syne', sans-serif;
@@ -150,7 +150,7 @@
         .grind-opt.active { background: var(--dark); color: #fff; border-color: var(--dark); box-shadow: 3px 3px 0px var(--accent); transform: translate(-2px,-2px); }
         .grind-opt.active i, .grind-opt.active small { color: var(--accent); }
 
-        /* --- VISTA: THE ORACLE --- */
+        /* --- VISTA: EL ORÁCULO --- */
         .oracle-container { background: var(--dark); color: #fff; padding: 80px; margin-bottom: 100px; box-shadow: 15px 15px 0px var(--accent); border: 1px solid var(--border); }
         .oracle-step { display: none; }
         .oracle-step.active { display: block; animation: fadeIn 0.4s ease forwards; }
@@ -193,7 +193,7 @@
         </a>
         <div class="nav-links">
             <a href="#/shop" class="nav-link" data-target="shop">Catálogo</a>
-            <a href="#/oracle" class="nav-link" data-target="oracle">The Oracle</a>
+            <a href="#/oracle" class="nav-link" data-target="oracle">El Oráculo</a>
             <a href="#/lab" class="nav-link" data-target="lab">Brew Lab</a>
             <a href="#/about" class="nav-link" data-target="about">Nosotros</a>
         </div>
@@ -292,7 +292,7 @@
 
 <main id="oracle" class="view container">
     <div class="oracle-container reveal">
-        <h2 style="font-family: var(--font-head); font-size: 48px; color: var(--accent); margin-bottom: 20px; text-transform: uppercase;">Sensory Oracle</h2>
+        <h2 style="font-family: var(--font-head); font-size: 48px; color: var(--accent); margin-bottom: 20px; text-transform: uppercase;">El Oráculo Sensorial</h2>
         <p style="font-size: 18px; margin-bottom: 40px; color: #aaa;">Encontraremos tu match perfecto mediante calibración técnica.</p>
 
         <div class="oracle-step active" id="o-step-1">
@@ -345,8 +345,9 @@
 <main id="about" class="view container">
     <div style="max-width: 900px; margin: 0 auto; padding-bottom: 100px;">
         <h1 style="font-family: var(--font-head); font-size: 80px; text-transform: uppercase; line-height: 0.9; margin-bottom: 40px;">Cuestionando<br><span style="color: var(--accent); -webkit-text-stroke: 1px var(--dark);">El Status Quo.</span></h1>
-        <p style="font-size: 20px; font-weight: 600; margin-bottom: 30px;">Pulso nació para erradicar el café aburrido y el comercio injusto.</p>
+        <p style="font-size: 20px; font-weight: 700; margin-bottom: 30px;">Pulso nació para erradicar el café aburrido y el comercio injusto.</p>
         <p style="font-size: 16px; color: #555; line-height: 1.8; margin-bottom: 30px;">No compramos a grandes importadores ciegos. Viajamos a las fincas y colaboramos directamente con los productores, pagando primas de especialidad que les permiten invertir en procesos botánicos únicos y mejorar su calidad de vida.</p>
+        <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&q=80&w=1200" style="width: 100%; margin: 40px 0; border: 1px solid var(--border); filter: grayscale(1);">
         <p style="font-size: 16px; color: #555; line-height: 1.8; margin-bottom: 30px;">Nuestro tueste es una calibración de datos: temperatura, flujo de aire y densidad del grano, todo analizado para que la taza que te prepares en casa sea la representación más pura de su origen.</p>
     </div>
 </main>
@@ -368,7 +369,7 @@
             <div class="footer-col">
                 <h4 style="color: var(--accent); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px; text-transform: uppercase;">Educación</h4>
                 <a href="#/lab">Brew Guides</a>
-                <a href="#/oracle">Sensory Oracle</a>
+                <a href="#/oracle">El Oráculo</a>
                 <a href="#/about">Nuestra Historia</a>
             </div>
             <div class="footer-col">
@@ -680,7 +681,7 @@
         }, 1000);
     }
 
-    // --- SPA ROUTER ---
+    // --- ENRUTADOR SPA ---
     function router() {
         const path = window.location.hash.replace(/^#\/?/, '') || 'home';
         const [route, id] = path.split('/');
@@ -716,10 +717,10 @@
                     `).join('');
                 }
             }
-            if(route === 'shop') filterShop('all'); // Maneja el error de 'undefined' btn
+            if(route === 'shop') filterShop('all');
             if(route === 'lab') initBrewLab();
         }
-        window.scrollTo(0,0);
+        window.scrollTo({ top: 0, behavior: 'instant' });
         setTimeout(() => { document.querySelectorAll('.view.active .reveal').forEach(el => el.classList.add('active')); }, 50);
     }
 
