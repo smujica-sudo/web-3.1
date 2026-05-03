@@ -145,7 +145,6 @@
         .card { background: #fff; border: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; transition: 0.4s; border-radius: 8px; overflow: hidden; }
         .card:hover { border-color: var(--accent-alt); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         .card-img { padding: 40px; background: #F8F7F2; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; }
-        /* Mockup unificado requiere mix-blend-mode para verse perfecto */
         .card-img img { max-width: 80%; max-height: 80%; object-fit: contain; mix-blend-mode: multiply; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.1)); transition: 0.5s; }
         .card:hover .card-img img { transform: scale(1.08); filter: drop-shadow(0 20px 25px rgba(0,0,0,0.15)); }
         .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
@@ -688,6 +687,15 @@
         brewTimer: { interval: null, seconds: 0 }
     };
 
+    // FUNCIÓN DEBOUNCE: Previene memory leaks y sobrecarga en el Event Loop
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(null, args), delay);
+        };
+    };
+
     const UI = {
         nav: document.getElementById('mainNav'),
         searchInp: document.getElementById('navSearchInput'),
@@ -715,10 +723,10 @@
                 return;
             }
 
-            let total = 0;
-            this.cartBody.innerHTML = AppState.cart.map((item, idx) => {
-                total += item.price;
-                return `
+            // OPTIMIZACIÓN: Cálculo puro con reduce, renderizado sin side-effects en el map
+            const total = AppState.cart.reduce((acc, item) => acc + item.price, 0);
+            
+            this.cartBody.innerHTML = AppState.cart.map((item, idx) => `
                 <div class="cart-item">
                     <img src="${item.img}" alt="${item.name}">
                     <div class="cart-item-info">
@@ -727,15 +735,20 @@
                         <div class="cart-item-price">${formatCLP(item.price)}</div>
                         <button class="remove-item" data-action="remove-cart" data-idx="${idx}">Eliminar</button>
                     </div>
-                </div>`;
-            }).join('');
+                </div>`).join('');
+                
             this.cartTotal.innerText = formatCLP(total);
         },
 
         handleSearch(val) {
             val = val.toLowerCase();
             if(val.length < 2) { this.searchDrop.classList.remove('active'); return; }
-            const hits = DB.catalog.filter(c => c.name.toLowerCase().includes(val) || (c.trace && c.trace.origen.toLowerCase().includes(val)));
+            
+            // OPTIMIZACIÓN: Desestructuración y evaluación eficiente
+            const hits = DB.catalog.filter(({ name, trace }) => 
+                name.toLowerCase().includes(val) || (trace && trace.origen.toLowerCase().includes(val))
+            );
+
             if(hits.length > 0) {
                 this.searchDrop.innerHTML = hits.map(h => `
                     <div class="search-item" data-action="view-product" data-id="${h.id}">
@@ -750,19 +763,22 @@
         },
 
         renderShop(cat, targetBtn) {
-            if(targetBtn) {
-                document.querySelectorAll('#shop-filters .tab-btn').forEach(b => b.classList.remove('active'));
-                targetBtn.classList.add('active');
-            } else {
-                document.querySelectorAll('#shop-filters .tab-btn').forEach(b => b.classList.remove('active'));
-                const defaultBtn = document.querySelector(`#shop-filters .tab-btn[data-cat="${cat}"]`);
-                if(defaultBtn) defaultBtn.classList.add('active');
+            // OPTIMIZACIÓN: Menos accesos al DOM limitando el querySelectorAll al contenedor padre
+            const filterContainer = document.getElementById('shop-filters');
+            if(filterContainer) {
+                filterContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                if(targetBtn) {
+                    targetBtn.classList.add('active');
+                } else {
+                    const defaultBtn = filterContainer.querySelector(`.tab-btn[data-cat="${cat}"]`);
+                    if(defaultBtn) defaultBtn.classList.add('active');
+                }
             }
             
             const items = cat === 'all' ? DB.catalog : DB.catalog.filter(p => p.cat === cat);
             const grid = document.getElementById('shop-grid');
             if(!grid) return;
-            
+
             grid.innerHTML = items.map(p => `
                 <div class="card reveal" data-action="view-product" data-id="${p.id}">
                     <div class="card-img"><img src="${p.img}" loading="lazy"></div>
@@ -787,7 +803,8 @@
 
             const isCoffee = ['origin', 'blend', 'premium'].includes(p.cat);
             
-            let traceHtml = '';
+            let traceHtml = '', variantsHtml = '', radarHtml = '', flavorsHtml = '', relatedHtml = '';
+
             if (isCoffee && p.trace) {
                 traceHtml = `
                 <details class="trace-accordion">
@@ -800,14 +817,12 @@
                 </details>`;
             }
 
-            let variantsHtml = '';
             if(isCoffee) {
                 const grindHtml = DB.grindOptions.map(g => `
                     <div class="grind-opt ${g.id === 'bean' ? 'active' : ''}" data-action="select-grind">
                         <i class="fa-solid ${g.icon}"></i><div><span style="font-size:13px; font-weight:600;">${g.name}</span><small style="display:block; font-size:11px; color:#888;">${g.desc}</small></div>
                     </div>
                 `).join('');
-
                 variantsHtml = `
                     <div class="variant-group">
                         <h4>Tamaño</h4>
@@ -822,19 +837,17 @@
                     </div>`;
             }
 
-            let radarHtml = '', flavorsHtml = '';
             if(isCoffee && p.radar) {
                 radarHtml = `<div class="radar-box"><canvas id="radarChart"></canvas></div>`;
                 flavorsHtml = `<div class="flavor-pills">${p.flavors.map(f => `<div class="f-pill">${f}</div>`).join('')}</div>`;
             }
 
-            // Cross-selling logic
-            let relatedHtml = '';
             const relatedItems = DB.catalog.filter(c => c.id !== p.id && c.cat === p.cat).slice(0, 4);
             if (relatedItems.length < 4 && !isCoffee) {
                  const extra = DB.catalog.filter(c => c.cat === 'origin' || c.cat === 'blend').slice(0, 4 - relatedItems.length);
                  relatedItems.push(...extra);
             }
+
             if(relatedItems.length > 0) {
                 relatedHtml = `
                 <section class="related-section reveal">
@@ -879,11 +892,10 @@
                 ${relatedHtml}
             `;
 
-            // Robust Radar Chart Initialization
             if (isCoffee && p.radar) {
                 const renderChart = () => {
                     if (typeof Chart === 'undefined') {
-                        setTimeout(renderChart, 50); // Wait for Chart.js to initialize
+                        setTimeout(renderChart, 50);
                         return;
                     }
                     const ctx = document.getElementById('radarChart');
@@ -940,7 +952,6 @@
                         }
                     });
                 };
-                // Fallback to ensure DOM is ready
                 requestAnimationFrame(() => setTimeout(renderChart, 100));
             }
         },
@@ -985,9 +996,7 @@
         },
 
         toggleTimer(id, btn) {
-            let type = 'filter';
-            let g = DB.brewGuides.filter.find(x => x.id === id);
-            if(!g) { g = DB.brewGuides.espresso.find(x => x.id === id); type = 'espresso'; }
+            let g = DB.brewGuides.filter.find(x => x.id === id) || DB.brewGuides.espresso.find(x => x.id === id);
 
             if(AppState.brewTimer.interval) {
                 this.stopBrewTimer();
@@ -997,7 +1006,11 @@
                 return;
             }
             
-            btn.innerText = "DETENER RELOJ"; btn.style.background = "#fff"; btn.style.color = "#000";
+            btn.innerText = "DETENER RELOJ";
+            btn.style.background = "#fff"; btn.style.color = "#000";
+            
+            // OPTIMIZACIÓN: Cachear la lista de nodos paso una sola vez antes del intervalo
+            const stepNodes = Array.from(document.querySelectorAll('.step-item'));
             
             AppState.brewTimer.interval = setInterval(() => {
                 AppState.brewTimer.seconds++;
@@ -1005,9 +1018,10 @@
                 document.getElementById('b-timer').innerText = `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
                 
                 let activeIdx = -1;
+                // Búsqueda lineal eficiente O(s) donde s es muy pequeño (cantidad de pasos)
                 g.steps.forEach((step, idx) => { if(s >= step.time) activeIdx = idx; });
                 
-                document.querySelectorAll('.step-item').forEach((el, idx) => { el.classList.toggle('active', idx === activeIdx); });
+                stepNodes.forEach((el, idx) => el.classList.toggle('active', idx === activeIdx));
             }, 1000);
         },
 
@@ -1019,26 +1033,26 @@
             document.getElementById('ai-results').innerHTML = '';
             
             setTimeout(() => {
-                let matches = [...DB.catalog.filter(c => c.cat === 'origin' || c.cat === 'blend' || c.cat === 'premium')];
-                
-                matches.forEach(m => {
-                    m.score = 0;
-                    const str = (m.desc + ' ' + m.flavors.join(' ') + ' ' + m.name).toLowerCase();
-                    if(prompt.includes('dulce') && str.includes('dulz')) m.score += 2;
-                    if(prompt.includes('chocolate') && str.includes('choc')) m.score += 3;
-                    if((prompt.includes('fruta') || prompt.includes('frutal')) && str.includes('frut')) m.score += 3;
-                    if(prompt.includes('geisha') && str.includes('geisha')) m.score += 5;
-                    if(prompt.includes('espresso') && str.includes('espresso')) m.score += 3;
-                    if(prompt.includes('filtro') && str.includes('filtro')) m.score += 2;
-                });
-
-                matches.sort((a,b) => b.score - a.score);
-                const results = matches.slice(0,3);
+                // OPTIMIZACIÓN: Algoritmo unificado de cálculo de score y ordenamiento. Complejidad reducida.
+                const results = DB.catalog
+                    .filter(c => ['origin', 'blend', 'premium'].includes(c.cat))
+                    .map(m => {
+                        let score = 0;
+                        const str = `${m.desc} ${m.flavors.join(' ')} ${m.name}`.toLowerCase();
+                        if(prompt.includes('dulce') && str.includes('dulz')) score += 2;
+                        if(prompt.includes('chocolate') && str.includes('choc')) score += 3;
+                        if((prompt.includes('fruta') || prompt.includes('frutal')) && str.includes('frut')) score += 3;
+                        if(prompt.includes('geisha') && str.includes('geisha')) score += 5;
+                        if(prompt.includes('espresso') && str.includes('espresso')) score += 3;
+                        if(prompt.includes('filtro') && str.includes('filtro')) score += 2;
+                        return { ...m, score };
+                    })
+                    .sort((a,b) => b.score - a.score)
+                    .slice(0,3);
 
                 document.getElementById('ai-loading').style.display = 'none';
                 
-                const grid = document.getElementById('ai-results');
-                grid.innerHTML = results.map(p => `
+                document.getElementById('ai-results').innerHTML = results.map(p => `
                     <div class="card reveal active" data-action="view-product" data-id="${p.id}">
                         <div class="card-img"><img src="${p.img}"></div>
                         <div class="card-body">
@@ -1056,117 +1070,110 @@
         }
     };
 
+    // OPTIMIZACIÓN: Action Dispatcher (Complejidad de búsqueda O(1))
+    const Actions = {
+        'toggle-cart': () => UI.toggleCart(),
+        'filter': (t) => UI.renderShop(t.dataset.cat, t),
+        'view-product': (t) => {
+            window.location.hash = `#/product/${t.dataset.id}`;
+            UI.searchDrop.classList.remove('active');
+            UI.searchInp.value = '';
+        },
+        'update-price': (t) => {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            t.classList.add('active');
+            document.getElementById('dynamic-price').innerText = formatCLP(AppState.currentProduct.basePrice * parseFloat(t.dataset.mult));
+        },
+        'select-grind': (t) => {
+            document.querySelectorAll('.grind-opt').forEach(b => b.classList.remove('active'));
+            t.classList.add('active');
+        },
+        'add-cart': () => {
+            const sizeBtn = document.querySelector('.size-btn.active');
+            const grindBtn = document.querySelector('.grind-opt.active');
+            let mult = sizeBtn ? parseFloat(sizeBtn.dataset.mult) : 1;
+            
+            AppState.cart.push({
+                id: AppState.currentProduct.id,
+                name: AppState.currentProduct.name,
+                img: AppState.currentProduct.img,
+                size: sizeBtn ? sizeBtn.innerText.split('\n')[0].trim() : 'Unidad',
+                grind: grindBtn ? grindBtn.querySelector('span').innerText : 'N/A',
+                price: AppState.currentProduct.basePrice * mult
+            });
+            UI.updateCart();
+            UI.toggleCart();
+        },
+        'remove-cart': (t) => {
+            AppState.cart.splice(parseInt(t.dataset.idx), 1);
+            UI.updateCart();
+        },
+        'switch-oracle': (t) => {
+            document.querySelectorAll('.o-tab').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            document.getElementById('oracle-manual').style.display = t.dataset.view === 'manual' ? 'block' : 'none';
+            document.getElementById('oracle-ai').style.display = t.dataset.view === 'ai' ? 'block' : 'none';
+        },
+        'run-ai': () => UI.simulateAI(),
+        'oracle-step': (t) => {
+            document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`o-step-${t.dataset.next}`).classList.add('active');
+        },
+        'oracle-store': (t) => {
+            AppState.oracleData[t.dataset.key] = t.dataset.val;
+            Actions['oracle-step'](t);
+        },
+        'oracle-finish': (t) => {
+            AppState.oracleData.method = t.dataset.val;
+            let matchId = 6;
+            const { method, flavor, acidity } = AppState.oracleData;
+            
+            if(method === 'filter' && flavor === 'fruit') matchId = 2;
+            if(flavor === 'funky') matchId = 8;
+            if(method === 'espresso' && acidity === 'low') matchId = 5;
+            if(acidity === 'high' && flavor === 'fruit') matchId = 11;
+            
+            window.location.hash = `#/product/${matchId}`;
+            setTimeout(() => {
+                document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
+                document.getElementById('o-step-1').classList.add('active');
+            }, 1000);
+        },
+        'lab-tab': (t) => {
+            document.querySelectorAll('.l-tab').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            UI.renderGuides(t.dataset.type);
+        },
+        'view-guide': (t) => {
+            document.querySelectorAll('.guide-opt').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            UI.showGuideData(DB.brewGuides[t.dataset.type][t.dataset.idx]);
+        },
+        'toggle-timer': (t) => UI.toggleTimer(t.dataset.id, t)
+    };
+
     document.body.addEventListener('click', e => {
         const t = e.target.closest('[data-action]');
         if(!t) {
             if(!e.target.closest('.nav-search')) UI.searchDrop.classList.remove('active');
             return;
         }
-
-        switch(t.dataset.action) {
-            case 'toggle-cart':
-                UI.toggleCart();
-                break;
-            case 'filter':
-                UI.renderShop(t.dataset.cat, t);
-                break;
-            case 'view-product':
-                window.location.hash = `#/product/${t.dataset.id}`;
-                UI.searchDrop.classList.remove('active');
-                UI.searchInp.value = '';
-                break;
-            case 'update-price':
-                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-                t.classList.add('active');
-                document.getElementById('dynamic-price').innerText = formatCLP(AppState.currentProduct.basePrice * parseFloat(t.dataset.mult));
-                break;
-            case 'select-grind':
-                document.querySelectorAll('.grind-opt').forEach(b => b.classList.remove('active'));
-                t.classList.add('active');
-                break;
-            case 'add-cart':
-                const sizeBtn = document.querySelector('.size-btn.active');
-                const grindBtn = document.querySelector('.grind-opt.active');
-                let mult = sizeBtn ? parseFloat(sizeBtn.dataset.mult) : 1;
-                let sizeText = sizeBtn ? sizeBtn.innerText.split('\n')[0].trim() : 'Unidad';
-                let grindText = grindBtn ? grindBtn.querySelector('span').innerText : 'N/A';
-                
-                AppState.cart.push({
-                    id: AppState.currentProduct.id,
-                    name: AppState.currentProduct.name,
-                    img: AppState.currentProduct.img,
-                    size: sizeText,
-                    grind: grindText,
-                    price: AppState.currentProduct.basePrice * mult
-                });
-                UI.updateCart();
-                UI.toggleCart();
-                break;
-            case 'remove-cart':
-                AppState.cart.splice(parseInt(t.dataset.idx), 1);
-                UI.updateCart();
-                break;
-            case 'switch-oracle':
-                document.querySelectorAll('.o-tab').forEach(x => x.classList.remove('active'));
-                t.classList.add('active');
-                document.getElementById('oracle-manual').style.display = t.dataset.view === 'manual' ? 'block' : 'none';
-                document.getElementById('oracle-ai').style.display = t.dataset.view === 'ai' ? 'block' : 'none';
-                break;
-            case 'run-ai':
-                UI.simulateAI();
-                break;
-            case 'oracle-step':
-                document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
-                document.getElementById(`o-step-${t.dataset.next}`).classList.add('active');
-                break;
-            case 'oracle-store':
-                AppState.oracleData[t.dataset.key] = t.dataset.val;
-                document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
-                document.getElementById(`o-step-${t.dataset.next}`).classList.add('active');
-                break;
-            case 'oracle-finish':
-                AppState.oracleData.method = t.dataset.val;
-                let matchId = 6;
-                const o = AppState.oracleData;
-                if(o.method === 'filter' && o.flavor === 'fruit') matchId = 2;
-                if(o.flavor === 'funky') matchId = 8;
-                if(o.method === 'espresso' && o.acidity === 'low') matchId = 5;
-                if(o.acidity === 'high' && o.flavor === 'fruit') matchId = 11;
-                
-                window.location.hash = `#/product/${matchId}`;
-                setTimeout(() => {
-                    document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
-                    document.getElementById('o-step-1').classList.add('active');
-                }, 1000);
-                break;
-            case 'lab-tab':
-                document.querySelectorAll('.l-tab').forEach(x => x.classList.remove('active'));
-                t.classList.add('active');
-                UI.renderGuides(t.dataset.type);
-                break;
-            case 'view-guide':
-                document.querySelectorAll('.guide-opt').forEach(x => x.classList.remove('active'));
-                t.classList.add('active');
-                UI.showGuideData(DB.brewGuides[t.dataset.type][t.dataset.idx]);
-                break;
-            case 'toggle-timer':
-                UI.toggleTimer(t.dataset.id, t);
-                break;
-        }
+        
+        // Ejecución O(1) del Action Dispatcher
+        const action = Actions[t.dataset.action];
+        if (action) action(t);
     });
 
-    UI.searchInp.addEventListener('input', e => UI.handleSearch(e.target.value));
+    // Enlace de búsqueda con Debounce (300ms)
+    UI.searchInp.addEventListener('input', debounce(e => UI.handleSearch(e.target.value), 300));
 
     let rafId;
     window.addEventListener('scroll', () => {
         if(rafId) cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
             const scrolled = window.scrollY;
-            document.querySelectorAll('.parallax-bg').forEach(el => {
-                el.style.transform = `translate3d(0, ${scrolled * 0.4}px, 0)`;
-            });
-            if(scrolled > 50) UI.nav.classList.add('scrolled');
-            else UI.nav.classList.remove('scrolled');
+            document.querySelectorAll('.parallax-bg').forEach(el => el.style.transform = `translate3d(0, ${scrolled * 0.4}px, 0)`);
+            UI.nav.classList.toggle('scrolled', scrolled > 50);
         });
     }, { passive: true });
 
@@ -1199,6 +1206,7 @@
         } else {
             const activeView = document.getElementById(route) || document.getElementById('home');
             activeView.classList.add('active');
+            
             const activeLink = document.querySelector(`.nav-link[data-target="${route}"]`);
             if(activeLink) activeLink.classList.add('active');
             
@@ -1223,6 +1231,7 @@
             }
             if(route === 'shop' && document.getElementById('shop-grid').children.length === 0) UI.renderShop('all');
             if(route === 'lab' && document.getElementById('guide-nav').children.length === 0) UI.renderGuides('filter');
+            
             window.scrollTo({ top: 0, behavior: 'instant' });
         }
         observeElements();
@@ -1233,7 +1242,6 @@
         UI.updateCart();
         router(); 
     });
-
 })();
 </script>
 </body>
