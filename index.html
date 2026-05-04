@@ -36,6 +36,7 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .parallax-bg { position: absolute; top: -10%; left: 0; width: 100%; height: 120%; object-fit: cover; z-index: -1; will-change: transform; pointer-events: none; }
         .img-parallax-container { position: relative; overflow: hidden; border-radius: 8px; }
+        
         @keyframes rotateStar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .star-icon { display: inline-block; animation: rotateStar 10s linear infinite; color: var(--accent-alt); font-size: 0.8em; }
 
@@ -47,14 +48,14 @@
         .btn-cobalt { background: var(--accent-alt); color: #fff; border-color: var(--accent-alt); }
         .btn-cobalt:hover { background: var(--dark); color: #fff; }
 
-        /* --- NAVIGATION & MEGA MENU --- */
+        /* --- NAVIGATION --- */
         nav { position: fixed; top: 0; width: 100%; height: var(--nav-h); background: rgba(249, 248, 246, 0.95); z-index: 2000; border-bottom: 1px solid rgba(0,0,0,0.05); transition: 0.4s; backdrop-filter: blur(20px); }
         nav.scrolled { height: 70px; background: rgba(249, 248, 246, 0.8); }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 100%; position: relative; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 100%; }
         .logo-full { font-family: var(--font-head); font-size: 32px; font-weight: 800; letter-spacing: -2px; color: var(--dark); text-decoration: none; }
         .nav-links { display: flex; gap: 30px; align-items: center; height: 100%; }
         .nav-item { position: relative; display: flex; align-items: center; height: 100%; }
-        .nav-link { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; position: relative; }
+        .nav-link { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative; cursor: pointer; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background: var(--accent-alt); transition: 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
         
@@ -66,8 +67,10 @@
 
         .nav-search { position: relative; display: flex; align-items: center; background: #fff; border: 1px solid var(--border); padding: 6px 15px; border-radius: 30px; transition: 0.3s; }
         .nav-search:focus-within { border-color: var(--accent-alt); box-shadow: 0 0 15px rgba(0, 56, 255, 0.1); }
-        .nav-search input { border: none; outline: none; background: transparent; padding: 5px; font-family: var(--font-main); font-size: 12px; width: 120px; transition: 0.3s; }
+        .nav-search input { border: none; outline: none; background: transparent; padding: 5px; font-family: var(--font-main); font-size: 12px; width: 120px; transition: width 0.3s; }
         .nav-search input:focus { width: 220px; }
+        .nav-search i { color: #888; font-size: 14px; }
+        
         .search-dropdown { position: absolute; top: 50px; right: 0; width: 350px; background: #fff; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-radius: 8px; display: none; max-height: 400px; overflow-y: auto; z-index: 2001; }
         .search-dropdown.active { display: block; }
         .search-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: 0.2s; align-items: center; }
@@ -170,9 +173,10 @@
         .detail-img-box { background: #F8F7F2; padding: 80px; display: flex; justify-content: center; border: 1px solid var(--border); border-radius: 12px; position: sticky; top: 110px; overflow: hidden; }
         .detail-img-box img { width: 100%; max-width: 450px; z-index: 2; position: relative; mix-blend-mode: multiply; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15)); }
         
-        .radar-box { width: 100%; max-width: 380px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 50%; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
-        .flavor-pills { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .f-pill { background: rgba(0, 56, 255, 0.05); color: var(--accent-alt); padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .sensory-charts-container { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; width: 100%; max-width: 380px; margin-inline: auto; }
+        .radar-box { background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); transition: 0.3s; border: 1px solid var(--border); }
+        .radar-box:hover { box-shadow: 0 15px 40px rgba(0, 56, 255, 0.08); transform: translateY(-3px); }
+        .chart-title { text-align: center; font-family: var(--font-head); font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 15px; letter-spacing: 1px; }
 
         .trace-accordion { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 35px; overflow: hidden; background: #fff; }
         .trace-accordion summary { padding: 20px; font-family: var(--font-head); font-size: 13px; text-transform: uppercase; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #fafafa; font-weight: 700; }
@@ -267,7 +271,6 @@
         .tl-content { width: 45%; background: #fff; padding: 30px; border: 1px solid var(--border); border-radius: 8px; position: relative; transition: 0.3s; }
         .tl-content:hover { border-color: var(--accent-alt); box-shadow: 0 10px 30px rgba(0, 56, 255, 0.05); }
         .tl-year { position: absolute; left: 50%; transform: translate(-50%, -50%); background: var(--dark); color: #fff; font-family: var(--font-mono); padding: 5px 15px; border-radius: 30px; font-size: 12px; z-index: 2; top: 50%; }
-        .tl-content h3 { font-family: var(--font-head); font-size: 20px; margin-bottom: 10px; color: var(--accent-alt); }
 
         /* --- FORMS --- */
         .form-layout { max-width: 600px; margin: 0 auto 100px; }
@@ -395,7 +398,7 @@
 
     <section class="container avant-garde-section reveal">
         <div class="avant-garde-text">
-            <h2>Ciencia.<br><span class="stroke">Neurobiología.</span><br>Precisión.</h2>
+            <h2>Ciencia.<br><span class="stroke">Neurobiología.</span><br>Precisión. <i class="fa-solid fa-certificate star-icon"></i></h2>
             <p>Tostamos datos, servimos arte. Nuestra misión es erradicar la mediocridad sensorial mediante el control térmico estricto.</p>
         </div>
         <div class="avant-garde-stats">
@@ -546,7 +549,6 @@
 
 <main id="lab" class="view container">
     <h1 style="font-family:var(--font-head); font-size:56px; text-transform:uppercase; margin-bottom:10px;">Brew Lab</h1>
-    <p style="color:#666; margin-bottom:40px;">Parámetros exactos basados en la literatura mundial del café de especialidad. Calibra tu técnica.</p>
     <div style="display: flex; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
         <div class="l-tab active" data-action="lab-tab" data-type="filter" style="font-family: var(--font-head); font-size: 16px; cursor: pointer; text-transform: uppercase; color: var(--dark); font-weight: 800; border-bottom: 2px solid var(--accent-alt); padding-bottom: 8px; margin-bottom: -11px;">Manuales, Inmersión & Moka</div>
         <div class="l-tab" data-action="lab-tab" data-type="espresso" style="font-family: var(--font-head); font-size: 16px; color: #888; cursor: pointer; text-transform: uppercase;">Dial-in Espresso</div>
@@ -576,6 +578,20 @@
             <p style="font-size: 15px; color: #555; line-height: 1.6;">Direct Trade, Innovación Termodinámica y Obsesión por el SCA Score (86+).</p>
         </div>
     </div>
+    <div class="process-grid">
+        <div class="process-text reveal"><div class="process-num">01</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Sourcing de Precisión</h3><p style="line-height: 1.8; color: #555;">Colaboramos con agrónomos y productores experimentales. Seleccionamos varietales únicos procesados mediante shock térmico, fermentaciones lácticas y maceración carbónica.</p></div>
+        <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&q=80&w=800" class="process-img reveal">
+        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800" class="process-img reveal" style="grid-row: 2;">
+        <div class="process-text reveal" style="grid-row: 2;"><div class="process-num">02</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Roast Profiling</h3><p style="line-height: 1.8; color: #555;">No tostamos por color, tostamos por software. Analizamos la Tasa de Aumento (RoR) mediante sensores PT100 y controlamos el desarrollo térmico para maximizar la dulzura enzimática.</p></div>
+        <div class="process-text reveal"><div class="process-num">03</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">QA & Transparencia</h3><p style="line-height: 1.8; color: #555;">Cada bache se cata a ciegas bajo estrictos protocolos SCA. Publicamos nuestras curvas de tueste y te entregamos calculadoras de extracción algorítmicas (Brew Lab) para asegurar la taza perfecta.</p></div>
+        <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800" class="process-img reveal">
+    </div>
+    <h2 style="text-align:center; font-family:var(--font-head); font-size:32px; margin-bottom: 40px;">Timeline de Calibración</h2>
+    <div class="timeline">
+        <div class="tl-item reveal"><div class="tl-year">2022</div><div class="tl-content"><h3>El Origen</h3><p>Fundación por Omar Mora, Sergio Mujica, Tomás Barrios, Roberto Yany y Toshiro Kohn. Un equipo multidisciplinario cuestionando el status quo.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-year">2024</div><div class="tl-content"><h3>Expansión Técnica</h3><p>Se incorpora Rodrigo Rabajille. Implementación de perfiles termodinámicos predictivos y apertura del Lab Central en Santiago.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-year">2025</div><div class="tl-content"><h3>Sinergia Artística</h3><p>Ingresa Jorge Rodriguez Becker. Fusión de diseño paramétrico con nuestra identidad visual. Vanguardia en Sudamérica.</p></div></div>
+    </div>
 </main>
 
 <main id="contact" class="view container">
@@ -592,11 +608,13 @@
 
 <main id="b2b" class="view container">
     <div class="form-layout reveal">
-        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase;">Wholesale</h1>
+        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase;">Wholesale B2B</h1>
         <p style="color:#666; margin-bottom:40px;">Provisión técnica para cafeterías que exigen la máxima pureza.</p>
         <form onsubmit="event.preventDefault(); alert('Solicitud B2B recibida.');">
-            <div class="input-group"><label>Empresa</label><input type="text" required></div>
+            <div class="input-group"><label>Empresa / Proyecto</label><input type="text" required></div>
+            <div class="input-group"><label>Nombre del Contacto</label><input type="text" required></div>
             <div class="input-group"><label>Consumo Estimado (Kg/Mes)</label><input type="number" required></div>
+            <div class="input-group"><label>Equipamiento Actual (Máquinas, Molinos)</label><textarea rows="3"></textarea></div>
             <button type="submit" class="btn btn-neon" style="width:100%;">Solicitar Programa Partner</button>
         </form>
     </div>
@@ -607,6 +625,7 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 60px; margin-bottom: 60px;">
             <div><div class="logo-full" style="color:#fff;">PULSO.</div><p style="color:#888; margin-top:20px; font-size:13px;">Professional Grade Roasting Studio.</p></div>
             <div class="footer-col"><h4>Catálogo</h4><a href="#/shop">Origins</a><a href="#/shop">Blends</a></div>
+            <div class="footer-col"><h4>Herramientas</h4><a href="#/lab">Brew Lab Pro</a><a href="#/oracle">Sensory Oracle</a></div>
             <div class="footer-col"><h4>Nosotros</h4><a href="#/about">Historia</a><a href="#/b2b">B2B</a></div>
         </div>
         <div style="border-top: 1px solid #222; padding-top:20px; font-family:var(--font-mono); font-size:10px; color:#666; display:flex; justify-content:space-between;">
@@ -620,17 +639,103 @@
     'use strict';
 
     const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(num);
-
     const COFFEE_BAG_IMG = 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800';
 
     const DB = {
         catalog: [
-            { id: 1, cat: 'origin', badge: 'Washed', name: 'Colombia El Paraíso', basePrice: 18900, img: COFFEE_BAG_IMG, radar: [8, 9, 6, 8, 7], flavors: ['Frutilla', 'Yogurt'], desc: 'Lavado con choque térmico. Notas increíbles a yogurt de frutilla.', trace: { Origen: 'Cauca', Productor: 'Diego Bermúdez', Varietal: 'Castillo', Tueste: '82 Agtron' } },
-            { id: 2, cat: 'origin', badge: 'Natural', name: 'Etiopía Guji Hambela', basePrice: 19500, img: COFFEE_BAG_IMG, radar: [9, 7, 8, 6, 8], flavors: ['Arándanos', 'Cacao'], desc: 'Secado al sol africano. Cuerpo licoroso.', trace: { Origen: 'Guji', Productor: 'Estate', Varietal: 'Heirloom', Tueste: '75 Agtron' } },
-            { id: 3, cat: 'origin', badge: 'Honey', name: 'Perú Cajamarca', basePrice: 17000, img: COFFEE_BAG_IMG, radar: [9, 5, 8, 4, 8], flavors: ['Chancaca', 'Nuez'], desc: 'Honey amarillo con cuerpo meloso.', trace: { Origen: 'Cajamarca', Productor: 'Cooperativa', Varietal: 'Caturra', Tueste: '65 Agtron' } },
-            { id: 6, cat: 'blend', badge: 'House', name: 'Baseline 01', basePrice: 14900, img: COFFEE_BAG_IMG, radar: [9, 3, 10, 2, 8], flavors: ['Chocolate', 'Caramelo'], desc: 'Motor para espresso. Dulce y pesado.', trace: { Origen: 'Brasil/Colombia', Tueste: '58 Agtron' } },
-            { id: 10, cat: 'premium', badge: 'Geisha', name: 'Panamá Esmeralda', basePrice: 45000, img: COFFEE_BAG_IMG, radar: [8, 10, 3, 10, 10], flavors: ['Jazmín', 'Té Verde'], desc: 'El rey de los cafés. Notas explosivas florales.', trace: { Origen: 'Boquete', Productor: 'Peterson', Varietal: 'Geisha', Tueste: '85 Agtron' } },
+            { 
+                id: 1, cat: 'origin', badge: 'Washed', name: 'Colombia Finca El Paraíso', basePrice: 18900, img: COFFEE_BAG_IMG, 
+                desc: 'Lavado con choque térmico. Notas increíbles a yogurt de frutilla y durazno blanco.', 
+                radar: [8, 9, 6, 8, 7], flavors: ['Frutilla', 'Yogurt', 'Durazno Blanco'], 
+                tastify: { labels: ['Fresa', 'Fermentado', 'Durazno'], data: [9, 6, 8], colors: ['#EF476F', '#FFD166', '#F4A261'] },
+                trace: { Origen: 'Cauca, Colombia', Productor: 'Diego Bermúdez', Varietal: 'Castillo', Altitud: '1930 m.s.n.m.', Proceso: 'Lavado Choque Térmico', Tueste: '82 Agtron', Malla: '16+' } 
+            },
+            { 
+                id: 2, cat: 'origin', badge: 'Natural', name: 'Etiopía Guji Hambela', basePrice: 19500, img: COFFEE_BAG_IMG, 
+                desc: 'Secado al sol africano. Cuerpo licoroso y un dulzor inmenso a frutos negros.', 
+                radar: [9, 7, 8, 6, 8], flavors: ['Arándanos', 'Mermelada', 'Cacao'], 
+                tastify: { labels: ['Arándano', 'Cacao', 'Mora'], data: [9, 7, 8], colors: ['#118AB2', '#7F4F24', '#7B2CBF'] },
+                trace: { Origen: 'Guji, Etiopía', Productor: 'Hambela Estate', Varietal: 'Heirloom', Altitud: '2100 m.s.n.m.', Proceso: 'Natural Secado en Camas', Tueste: '75 Agtron', Malla: '14+' } 
+            },
+            { 
+                id: 3, cat: 'origin', badge: 'Honey', name: 'Perú Cajamarca Caturra', basePrice: 17000, img: COFFEE_BAG_IMG, 
+                desc: 'Proceso Honey amarillo. Cuerpo meloso con notas a manzana asada y nuez pecán.', 
+                radar: [9, 5, 8, 4, 8], flavors: ['Chancaca', 'Manzana Asada', 'Nuez'], 
+                tastify: { labels: ['Melaza', 'Nueces', 'Azúcar Morena'], data: [8, 7, 8], colors: ['#582F0E', '#A68A64', '#9C6644'] },
+                trace: { Origen: 'Cajamarca, Perú', Productor: 'Cooperativa local', Varietal: 'Caturra Amarillo', Altitud: '1750 m.s.n.m.', Proceso: 'Yellow Honey', Tueste: '65 Agtron', Malla: '15+' } 
+            },
+            { 
+                id: 4, cat: 'origin', badge: 'Washed', name: 'Guatemala Antigua', basePrice: 16500, img: COFFEE_BAG_IMG, 
+                desc: 'Equilibrio perfecto. Acidez de manzana verde con un final a chocolate con leche.', 
+                radar: [8, 6, 7, 5, 7], flavors: ['Manzana Verde', 'Chocolate', 'Canela'], 
+                tastify: { labels: ['Manzana', 'Chocolate', 'Canela'], data: [7, 8, 6], colors: ['#06D6A0', '#6F1D1B', '#B08968'] },
+                trace: { Origen: 'Antigua, Guatemala', Productor: 'Finca Medina', Varietal: 'Bourbon / Typica', Altitud: '1600 m.s.n.m.', Proceso: 'Lavado Tradicional', Tueste: '62 Agtron', Malla: '17+' } 
+            },
+            { 
+                id: 5, cat: 'origin', badge: 'Pulped', name: 'Brasil Cerrado Mineiro', basePrice: 15900, img: COFFEE_BAG_IMG, 
+                desc: 'Cuerpo pesado y bajísima acidez. Praliné, maní tostado y azúcar morena.', 
+                radar: [10, 2, 9, 2, 6], flavors: ['Praliné', 'Maní', 'Azúcar Morena'], 
+                tastify: { labels: ['Praliné', 'Maní', 'Caramelo'], data: [8, 9, 7], colors: ['#D4A373', '#E3D5CA', '#FAEDCD'] },
+                trace: { Origen: 'Cerrado Mineiro, Brasil', Productor: 'Daterra', Varietal: 'Catuai / Mundo Novo', Altitud: '1150 m.s.n.m.', Proceso: 'Pulped Natural', Tueste: '55 Agtron', Malla: '16+' } 
+            },
+            { 
+                id: 6, cat: 'blend', badge: 'House', name: 'Baseline 01', basePrice: 14900, img: COFFEE_BAG_IMG, 
+                desc: 'Motor para espresso. Chocolate 80% y caramelo. Consistente, pesado y dulce.', 
+                radar: [9, 3, 10, 2, 8], flavors: ['Chocolate 80%', 'Praliné', 'Caramelo'], 
+                tastify: { labels: ['Chocolate Amargo', 'Caramelo', 'Nuez Tostada'], data: [9, 8, 7], colors: ['#3A0CA3', '#F4A261', '#D4A373'] },
+                trace: { Origen: 'Brasil / Colombia', Productor: 'Varios', Varietal: 'Blend Arábica', Altitud: '1100 - 1800 m.s.n.m.', Proceso: 'Lavado y Natural', Tueste: '58 Agtron', Malla: 'Mix' } 
+            },
+            { 
+                id: 7, cat: 'blend', badge: 'Morning', name: 'Bright Heart', basePrice: 15900, img: COFFEE_BAG_IMG, 
+                desc: 'Blend frutal para empezar el día con claridad y energía.', 
+                radar: [7, 8, 5, 6, 7], flavors: ['Limón', 'Miel', 'Té Negro'], 
+                tastify: { labels: ['Limón', 'Miel', 'Té Negro'], data: [8, 7, 6], colors: ['#FFD166', '#FFB703', '#264653'] },
+                trace: { Origen: 'Etiopía / Perú', Productor: 'Varios', Varietal: 'Heirloom / Caturra', Altitud: '1700 - 2100 m.s.n.m.', Proceso: 'Lavado', Tueste: '72 Agtron', Malla: 'Mix' } 
+            },
+            { 
+                id: 8, cat: 'blend', badge: 'Funky', name: 'Wild Pulse', basePrice: 17500, img: COFFEE_BAG_IMG, 
+                desc: 'Blend de procesos experimentales. Sabores licorosos, piña madura y ron.', 
+                radar: [8, 7, 6, 8, 9], flavors: ['Piña', 'Ron', 'Cacao Nibs'], 
+                tastify: { labels: ['Piña', 'Fermentado', 'Cacao'], data: [9, 8, 7], colors: ['#FFD166', '#E76F51', '#7F4F24'] },
+                trace: { Origen: 'Colombia Anaeróbico / Brasil', Productor: 'Varios', Varietal: 'Mix Arábica', Altitud: 'Varios', Proceso: 'Anaeróbico / Pulped', Tueste: '68 Agtron', Malla: 'Mix' } 
+            },
+            { 
+                id: 9, cat: 'blend', badge: 'Decaf', name: 'Midnight Velvet', basePrice: 16900, img: COFFEE_BAG_IMG, 
+                desc: 'Descafeinado Swiss Water. Todo el sabor, cero cafeína.', 
+                radar: [8, 4, 8, 3, 6], flavors: ['Nuez', 'Miel', 'Cacao'], 
+                tastify: { labels: ['Nuez', 'Miel', 'Chocolate'], data: [7, 6, 8], colors: ['#A68A64', '#FFB703', '#6F1D1B'] },
+                trace: { Origen: 'Chiapas, México', Productor: 'Varios', Varietal: 'Typica', Altitud: '1500 m.s.n.m.', Proceso: 'Swiss Water Decaf', Tueste: '60 Agtron', Malla: '15+' } 
+            },
+            { 
+                id: 10, cat: 'premium', badge: 'Geisha', name: 'Panamá Esmeralda', basePrice: 45000, img: COFFEE_BAG_IMG, 
+                desc: 'El rey de los cafés. Lavado, con notas explosivas a jazmín, bergamota y durazno.', 
+                radar: [8, 10, 3, 10, 10], flavors: ['Jazmín', 'Durazno', 'Té Verde'], 
+                tastify: { labels: ['Jazmín', 'Bergamota', 'Durazno'], data: [10, 9, 8], colors: ['#FFC8DD', '#06D6A0', '#F4A261'] },
+                trace: { Origen: 'Boquete, Panamá', Productor: 'Familia Peterson', Varietal: 'Geisha', Altitud: '1700 m.s.n.m.', Proceso: 'Lavado', Tueste: '85 Agtron', Malla: '15+' } 
+            },
+            { 
+                id: 11, cat: 'premium', badge: 'SL28', name: 'Kenia Nyeri Carbonic', basePrice: 32000, img: COFFEE_BAG_IMG, 
+                desc: 'Maceración carbónica. Una acidez brillante a grosella negra y vino tinto.', 
+                radar: [6, 10, 6, 7, 9], flavors: ['Mora', 'Vino Tinto', 'Grosella'], 
+                tastify: { labels: ['Mora', 'Vino', 'Grosella'], data: [9, 8, 8], colors: ['#7B2CBF', '#9D0208', '#D00000'] },
+                trace: { Origen: 'Nyeri, Kenia', Productor: 'Othaya Farm', Varietal: 'SL28 / SL34', Altitud: '1850 m.s.n.m.', Proceso: 'Maceración Carbónica', Tueste: '80 Agtron', Malla: 'AA (18+)' } 
+            },
+            { 
+                id: 12, cat: 'premium', badge: 'Ombligón', name: 'Colombia Finca El Diviso', basePrice: 35000, img: COFFEE_BAG_IMG, 
+                desc: 'Varietal exótico. Notas licorosas, cereza negra y cacao.', 
+                radar: [9, 8, 5, 8, 9], flavors: ['Cereza Negra', 'Licor', 'Cacao'], 
+                tastify: { labels: ['Cereza', 'Fermentado', 'Cacao'], data: [9, 8, 7], colors: ['#D00000', '#E76F51', '#7F4F24'] },
+                trace: { Origen: 'Huila, Colombia', Productor: 'Nestor Lasso', Varietal: 'Ombligón', Altitud: '1750 m.s.n.m.', Proceso: 'Natural Oxidación 80h', Tueste: '78 Agtron', Malla: '16+' } 
+            },
+            { 
+                id: 13, cat: 'premium', badge: 'Heirloom', name: 'Yemen Forest Natural', basePrice: 38000, img: COFFEE_BAG_IMG, 
+                desc: 'Café silvestre secado al sol. Especias y cardamomo.', 
+                radar: [8, 4, 9, 9, 8], flavors: ['Cardamomo', 'Higos', 'Especias'], 
+                tastify: { labels: ['Especias', 'Higos', 'Madera'], data: [9, 8, 6], colors: ['#B08968', '#6A040F', '#7F4F24'] },
+                trace: { Origen: 'Sanaa, Yemen', Productor: 'Qima Coffee', Varietal: 'Yemenia (Heirloom)', Altitud: '2200 m.s.n.m.', Proceso: 'Natural Tradicional', Tueste: '66 Agtron', Malla: '14+' } 
+            },
             { id: 14, cat: 'pack', badge: 'Bundle', name: 'The Tasting Flight', basePrice: 28000, img: COFFEE_BAG_IMG, desc: '3 bolsas de 100g. Descubre Lavado, Natural y Honey.', flavors: ['Varios'], trace: { origen: 'Global', productor: 'Varios', proceso: 'Mixto', tueste: 'Variado' } },
+            
             { id: 15, cat: 'machines', badge: 'Pro', name: 'Lelit Bianca V3', basePrice: 2450000, img: 'https://images.unsplash.com/photo-1510526338181-49635039433d?q=80&w=600', desc: 'Control de flujo total.' },
             { id: 16, cat: 'methods', badge: 'Gear', name: 'Chemex 6 Tazas', basePrice: 55000, img: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600', desc: 'Extracciones ultra limpias.' },
             { id: 17, cat: 'accessories', badge: 'Gear', name: 'Balanza Acaia Pearl', basePrice: 180000, img: 'https://images.unsplash.com/photo-1585237730962-43ce9c2295a0?q=80&w=600', desc: 'La balanza definitiva de precisión.' },
@@ -646,29 +751,34 @@
         ],
         brewGuides: {
             filter: [
-                { id: 'v60-std', name: 'V60: Estándar Infalible', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Media', temp: '93°C', technique: 'Ideal para principiantes. Tres vertidos iguales para asegurar consistencia sin saturar el cono.', variant: { name: 'Más Dulzor', desc: 'Divide el último vertido en dos pulsos de 50g para extender el tiempo de contacto.' }, steps: [{time:0, text:'Bloom: 60g de agua. Agita el cono suavemente.'},{time:45, text:'Vierte hasta 180g en círculos.'},{time:90, text:'Vierte hasta 300g.'},{time:150, text:'Drenaje completo esperado.'}] },
-                { id: 'h-v60', name: 'V60: Hoffmann Ultimate', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Medio-Fina', temp: '99°C', technique: 'Temperatura máxima para maximizar extracción en tuestes claros. Swirl para asentar la cama.', variant: { name: 'Tueste Oscuro', desc: 'Reduce la temperatura a 85°C para evitar extraer compuestos amargos y astringentes.' }, steps: [{time:0, text:'Bloom 60g. Swirl vigoroso.'},{time:45, text:'Vierte hasta 180g.'},{time:75, text:'Vierte lento hasta 300g.'},{time:90, text:'Swirl suave para asentar.'},{time:180, text:'Drenaje total con cama plana.'}] },
-                { id: 'k-46', name: 'V60: Tetsu Kasuya 4:6', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Muy Gruesa', temp: '90°C', technique: 'Divide el agua en 40% (balance dulce/ácido) y 60% (fuerza). Drenaje completo entre pulsos.', variant: { name: 'Más Dulzor / Menos Acidez', desc: 'En el primer 40%, vierte 50g en el pulso 1 y 70g en el pulso 2. Para más acidez, inviértelo (70g primero).' }, steps: [{time:0, text:'Pulso 1: 50g.'},{time:45, text:'Pulso 2: Vierte hasta 120g (+70g).'},{time:90, text:'Pulso 3: Vierte hasta 180g (+60g).'},{time:135, text:'Pulso 4: Vierte hasta 240g (+60g).'},{time:180, text:'Pulso 5: Vierte hasta 300g (+60g).'}] },
-                { id: 'ch-std', name: 'Chemex: Estándar', method: 'Filtro Grueso', ratio: '1:16.6 (30g / 500ml)', grind: 'Medio-Gruesa', temp: '94°C', technique: 'Vertidos simples para el hogar. El papel grueso filtra aceites dando una taza brillante.', variant: { name: 'Más Cuerpo', desc: 'Agita la Chemex suavemente después del último vertido para asentar los finos y retardar el flujo levemente.' }, steps: [{time:0, text:'Bloom: 60g. Humedece todo el café.'},{time:45, text:'Vierte en círculos lentos hasta 300g.'},{time:120, text:'Vierte hasta 500g.'},{time:240, text:'Levanta el filtro levemente si hay vacío.'},{time:300, text:'Drenaje completado.'}] },
-                { id: 'ch-clean', name: 'Chemex: Extracción Floral', method: 'Filtro Grueso', ratio: '1:16 (25g / 400ml)', grind: 'Algo Gruesa', temp: '96°C', technique: 'Flujo rápido para tuestes premium (Geisha). Resalta notas florales y minimiza el amargor final.', variant: { name: 'Menos Dilución', desc: 'Corta el vertido en 350ml para un final más intenso y concentrado.' }, steps: [{time:0, text:'Bloom: 75g con agua agresiva.'},{time:40, text:'Vertido continuo hasta 400g manteniéndolo al centro.'},{time:210, text:'Drenaje rápido.'}] },
-                { id: 'kl-std', name: 'Kalita / Fondo Plano', method: 'Fondo Plano', ratio: '1:16.6 (15g / 250ml)', grind: 'Media', temp: '94°C', technique: 'El fondo plano perdona errores de canalización. Vertidos suaves minimizan la agitación térmica.', variant: { name: 'Mayor Extracción', desc: 'Vierte desde mayor altura para causar turbulencia en el lecho del café.' }, steps: [{time:0, text:'Bloom: 50g en espiral.'},{time:40, text:'Pulso suave al centro: hasta 100g.'},{time:80, text:'Pulso al centro: hasta 150g.'},{time:120, text:'Pulso final en espiral: hasta 250g.'}] },
-                { id: 'og-std', name: 'Origami: Rápido & Dulce', method: 'Filtro Híbrido', ratio: '1:15 (15g / 225ml)', grind: 'Medio-Fina', temp: '93°C', technique: 'Las estrías del Origami aceleran el flujo. Usamos un filtro cónico para máxima claridad frutal.', variant: { name: 'Textura Sedosa', desc: 'Usa un filtro Kalita Wave en el Origami para asentar la extracción y generar más cuerpo.' }, steps: [{time:0, text:'Bloom vigoroso de 50g.'},{time:30, text:'Vertido rápido hasta 150g.'},{time:60, text:'Vertido final hasta 225g.'}] },
-                { id: 'fr-std', name: 'Prensa Francesa: Infalible', method: 'Inmersión Total', ratio: '1:15 (30g / 450ml)', grind: 'Medio-Gruesa', temp: '95°C', technique: 'El método clásico. Requiere molienda pareja para evitar exceso de sedimentos polvorientos.', variant: { name: 'Más Fuerte', desc: 'A los 2 minutos, remueve vigorosamente el café con una cuchara antes de dejarlo decantar.' }, steps: [{time:0, text:'Vierte toda el agua (450g) sobre el café.'},{time:240, text:'Pon el émbolo y presiona lentamente.'},{time:250, text:'Sirve de inmediato para detener la extracción.'}] },
-                { id: 'fr-hoff', name: 'Prensa Francesa: Taza Limpia', method: 'Inmersión Total', ratio: '1:15 (30g / 450ml)', grind: 'Media', temp: '99°C', technique: 'Derriba el mito de la molienda extra gruesa. Tiempo prolongado decanta los sedimentos sin presionar.', variant: { name: 'Mayor Dulzor', desc: 'Espera 10 minutos completos antes de servir. La inmersión no sobre-extrae como la percolación.' }, steps: [{time:0, text:'Vierte 450g de agua de golpe.'},{time:240, text:'Rompe la costra superficial con cuchara.'},{time:260, text:'Retira la espuma y sedimentos flotantes.'},{time:540, text:'Pon el émbolo (no lo bajes) y sirve con cuidado.'}] },
-                { id: 'mk-std', name: 'Moka Italiana: Estándar', method: 'Estufa / Moka', ratio: 'Llenar canasta', grind: 'Fina', temp: 'Agua Caliente', technique: 'Evita el amargor precalentando el agua en la base. Nunca apisones (tamp) el café.', variant: { name: 'Más Acidez', desc: 'Usa fuego alto y retira la cafetera apenas el flujo de café se vuelva rubio/amarillo claro.' }, steps: [{time:0, text:'Agrega agua caliente a la base hasta debajo de la válvula.'},{time:15, text:'Pon la canasta con café nivelado (sin presionar). Cierra firme.'},{time:30, text:'Pon a fuego medio con la tapa abierta.'},{time:120, text:'Cuando empiece a salir rubio, retira y enfría la base con agua.'}] },
-                { id: 'mk-pro', name: 'Moka Pro (Light Roast)', method: 'Estufa / Moka', ratio: 'Canasta a 80%', grind: 'Media-Fina', temp: 'Agua Hirviendo', technique: 'Diseñada para tuestes claros. Usa un filtro de papel de AeroPress sobre el disco de café para filtrar finos.', variant: { name: 'Más Cuerpo', desc: 'Retira el filtro de papel AeroPress para dejar pasar los aceites naturales del café.' }, steps: [{time:0, text:'Pon agua hirviendo en la base.'},{time:15, text:'Pon café, nivelar y poner filtro de papel mojado encima.'},{time:30, text:'Fuego lento constante.'},{time:90, text:'Apaga el fuego apenas el café suba a la mitad de la recámara.'}] },
-                { id: 'ap-std', name: 'AeroPress: Estándar Infalible', method: 'Inmersión / Presión', ratio: '1:16 (15g / 240ml)', grind: 'Media', temp: '92°C', technique: 'Rápido y consistente para el hogar. Orientación normal.', variant: { name: 'Modo Concentrado', desc: 'Usa solo 90g de agua. Extrae y luego diluye en la taza con agua caliente (Bypass) al gusto.' }, steps: [{time:0, text:'Vierte agua hasta llegar al número 4 (aprox 240g).'},{time:10, text:'Revuelve 10 segundos.'},{time:60, text:'Pon el émbolo y presiona firmemente durante 30s.'}] },
-                { id: 'ap-wend', name: 'AeroPress: Invertido', method: 'Inmersión', ratio: '1:14 (14g / 200ml)', grind: 'Medio-Fina', temp: '96°C', technique: 'Posición invertida para evitar filtraciones prematuras. Otorga cuerpo redondo y acidez jugosa.', variant: { name: 'Mayor Claridad', desc: 'Usa dos filtros de papel enjuagados en lugar de uno para atrapar micro-finos.' }, steps: [{time:0, text:'Vierte 200g de agua. Inmediatamente revuelve 3 veces.'},{time:60, text:'Al minuto 1, revuelve 3 veces más.'},{time:70, text:'Pon la tapa (filtro enjuagado), purga el aire extra.'},{time:75, text:'Voltea sobre la taza y presiona firmemente hasta el silbido.'}] }
+                { id: 'v60-std', name: 'V60: Estándar Infalible', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Media', temp: '93°C', technique: 'Ideal para principiantes. Tres vertidos iguales para asegurar consistencia.', variant: { name: 'Más Dulzor', desc: 'Divide el último vertido en dos pulsos de 50g para extender el tiempo.' }, steps: [{time:0, text:'Bloom: 60g de agua.'},{time:45, text:'Vierte hasta 180g.'},{time:90, text:'Vierte hasta 300g.'},{time:150, text:'Drenaje completo esperado.'}] },
+                { id: 'h-v60', name: 'V60: Hoffmann Ultimate', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Medio-Fina', temp: '99°C', technique: 'Temperatura máxima para extraer tuestes claros. Swirl para asentar.', variant: { name: 'Tueste Oscuro', desc: 'Baja la temp. a 85°C para evitar astringencia.' }, steps: [{time:0, text:'Bloom 60g. Swirl vigoroso.'},{time:45, text:'Vierte hasta 180g.'},{time:75, text:'Vierte lento hasta 300g.'},{time:90, text:'Swirl suave para asentar.'},{time:180, text:'Drenaje total con cama plana.'}] },
+                { id: 'k-46', name: 'V60: Tetsu Kasuya 4:6', method: 'Filtro (V60)', ratio: '1:15 (20g / 300ml)', grind: 'Muy Gruesa', temp: '90°C', technique: 'Pulsos definen dulzor/acidez y fuerza. Drenaje completo entre pulsos.', variant: { name: 'Más Dulzor', desc: 'En el primer 40%, vierte 50g y luego 70g.' }, steps: [{time:0, text:'P1: 50g.'},{time:45, text:'P2: Vierte hasta 120g (+70g).'},{time:90, text:'P3: Vierte hasta 180g (+60g).'},{time:135, text:'P4: Vierte hasta 240g (+60g).'},{time:180, text:'P5: Vierte hasta 300g (+60g).'}] },
+                { id: 'ch-std', name: 'Chemex: Estándar', method: 'Filtro Grueso', ratio: '1:16.6', grind: 'Medio-Gruesa', temp: '94°C', technique: 'Vertidos simples. El papel grueso filtra aceites dando una taza brillante.', variant: { name: 'Más Cuerpo', desc: 'Agita suavemente al final para asentar los finos y retardar el flujo.' }, steps: [{time:0, text:'Bloom: 60g.'},{time:45, text:'Círculos lentos hasta 300g.'},{time:120, text:'Vierte hasta 500g.'},{time:240, text:'Levanta el filtro si hay vacío.'},{time:300, text:'Drenaje completado.'}] },
+                { id: 'kl-std', name: 'Kalita / Fondo Plano', method: 'Fondo Plano', ratio: '1:16.6 (15g / 250ml)', grind: 'Media', temp: '94°C', technique: 'El fondo plano perdona errores de canalización. Vertidos suaves.', variant: { name: 'Mayor Extracción', desc: 'Vierte desde mayor altura para causar turbulencia.' }, steps: [{time:0, text:'Bloom: 50g en espiral.'},{time:40, text:'Pulso suave al centro: hasta 100g.'},{time:80, text:'Pulso al centro: hasta 150g.'},{time:120, text:'Pulso final en espiral: hasta 250g.'}] },
+                { id: 'fr-std', name: 'Prensa Francesa: Infalible', method: 'Inmersión Total', ratio: '1:15 (30g / 450ml)', grind: 'Medio-Gruesa', temp: '95°C', technique: 'El método clásico. Molienda pareja para evitar exceso de sedimentos.', variant: { name: 'Más Fuerte', desc: 'A los 2 mins, remueve vigorosamente con una cuchara.' }, steps: [{time:0, text:'Vierte toda el agua (450g) sobre el café.'},{time:240, text:'Pon el émbolo y presiona lentamente.'},{time:250, text:'Sirve de inmediato.'}] },
+                { id: 'fr-hoff', name: 'Prensa Francesa: Taza Limpia', method: 'Inmersión Total', ratio: '1:15 (30g / 450ml)', grind: 'Media', temp: '99°C', technique: 'Tiempo prolongado decanta los sedimentos sin presionar.', variant: { name: 'Mayor Dulzor', desc: 'Espera 10 minutos completos antes de servir.' }, steps: [{time:0, text:'Vierte 450g de agua de golpe.'},{time:240, text:'Rompe la costra superficial con cuchara.'},{time:260, text:'Retira espuma y sedimentos flotantes.'},{time:540, text:'Pon el émbolo (no lo bajes) y sirve con cuidado.'}] },
+                { id: 'mk-std', name: 'Moka Italiana: Estándar', method: 'Estufa / Moka', ratio: 'Llenar canasta', grind: 'Fina', temp: 'Agua Caliente', technique: 'Evita el amargor precalentando el agua en la base. Nunca apisones.', variant: { name: 'Más Acidez', desc: 'Fuego alto y retira apenas el flujo se vuelva amarillo claro.' }, steps: [{time:0, text:'Agua caliente a la base hasta debajo de la válvula.'},{time:15, text:'Pon canasta con café nivelado (sin presionar). Cierra firme.'},{time:30, text:'Fuego medio con la tapa abierta.'},{time:120, text:'Sale rubio, retira y enfría la base con agua.'}] },
+                { id: 'ap-std', name: 'AeroPress: Estándar Infalible', method: 'Inmersión / Presión', ratio: '1:16 (15g / 240ml)', grind: 'Media', temp: '92°C', technique: 'Rápido y consistente. Orientación normal.', variant: { name: 'Modo Concentrado', desc: 'Usa solo 90g de agua. Extrae y luego diluye en la taza (Bypass).' }, steps: [{time:0, text:'Vierte agua hasta llegar al número 4 (240g).'},{time:10, text:'Revuelve 10 segundos.'},{time:60, text:'Pon el émbolo y presiona firmemente durante 30s.'}] },
+                { id: 'ap-wend', name: 'AeroPress: Invertido', method: 'Inmersión', ratio: '1:14 (14g / 200ml)', grind: 'Medio-Fina', temp: '96°C', technique: 'Posición invertida evita filtraciones. Otorga cuerpo redondo.', variant: { name: 'Mayor Claridad', desc: 'Usa dos filtros de papel enjuagados en lugar de uno.' }, steps: [{time:0, text:'Vierte 200g de agua. Revuelve 3 veces.'},{time:60, text:'Al minuto 1, revuelve 3 veces más.'},{time:70, text:'Pon tapa, purga el aire extra y voltea.'},{time:75, text:'Presiona firmemente hasta el silbido.'}] }
             ],
             espresso: [
-                { id: 'e-turbo', name: 'Dial-in: Light Roast Turbo Shot', method: 'Máquina Espresso', ratio: '1:2.6 (15g in / 40g out)', grind: 'Algo más gruesa que el estándar', temp: '94°C', technique: 'Baja presión (6 bar si es posible) y flujo rápido para maximizar Extracción Yield y potenciar notas florales sin astringencia.', variant: { name: 'Menos Acidez', desc: 'Reduce el ratio a 1:2.2 cortando antes la extracción.' }, steps: [{time:0, text:'Purga, WDT, Tamp nivelado. Bomba ON a 6 bar.'},{time:5, text:'Primera gota en taza. Flujo rápido.'},{time:15, text:'Corte de bomba en 40g de salida. Shot muy rápido.'}] },
-                { id: 'e-clarity', name: 'Dial-in: Modern Flow Profiling', method: 'Máquina Espresso', ratio: '1:2.5 (18g in / 45g out)', grind: 'Muy Fina', temp: '93°C - 95°C', technique: 'Tueste claro. Requiere mayor temperatura y ratio largo para equilibrar la acidez brillante.', variant: { name: 'Mayor Dulzor', desc: 'Extiende la pre-infusión a 10 segundos para saturar por completo la pastilla de café.' }, steps: [{time:0, text:'WDT riguroso.'},{time:5, text:'Pre-infusión activa hasta ver saturación en el portafiltro.'},{time:15, text:'Rampa a presión completa (8-9 Bares).'},{time:32, text:'Corte de bomba en 45g de salida.'}] },
-                { id: 'e-classic', name: 'Dial-in: Baseline / Clásico', method: 'Máquina Espresso', ratio: '1:2 (18g in / 36g out)', grind: 'Fina', temp: '90°C - 92°C', technique: 'Busca textura pesada (syrupy) y potenciar notas a chocolate. Ratios cortos previenen la sobre-extracción amarga.', variant: { name: 'Estilo Ristretto', desc: 'Ajusta la molienda un poco más fina y busca un ratio 1:1.5 (18g in / 27g out) en el mismo tiempo.' }, steps: [{time:0, text:'WDT y Tamp firme.'},{time:5, text:'Bomba ON a 9 Bares (Pre-infusión nula).'},{time:15, text:'El flujo debe verse como cola de ratón constante y viscoso.'},{time:28, text:'Corte exacto en 36g de salida.'}] }
+                { id: 'e-turbo', name: 'Dial-in: Light Roast Turbo Shot', method: 'Máquina Espresso', ratio: '1:2.6', grind: 'Más gruesa', temp: '94°C', technique: 'Baja presión (6 bar) para maximizar EY% en light roasts.', variant: { name: 'Menos Acidez', desc: 'Reduce el ratio a 1:2.2 cortando antes.' }, steps: [{time:0, text:'Purga, WDT, Tamp nivelado. Bomba ON a 6 bar.'},{time:5, text:'Primera gota en taza. Flujo rápido.'},{time:15, text:'Corte de bomba en 40g de salida. Shot muy rápido.'}] },
+                { id: 'e-clarity', name: 'Dial-in: Flow Profiling', method: 'Máquina Espresso', ratio: '1:2.5', grind: 'Muy Fina', temp: '93°C - 95°C', technique: 'Tueste claro. Requiere mayor temperatura y ratio largo.', variant: { name: 'Mayor Dulzor', desc: 'Extiende pre-infusión a 10s para saturar por completo.' }, steps: [{time:0, text:'WDT riguroso.'},{time:5, text:'Pre-infusión activa hasta ver saturación.'},{time:15, text:'Rampa a presión completa (8-9 Bares).'},{time:32, text:'Corte de bomba en 45g de salida.'}] },
+                { id: 'e-classic', name: 'Dial-in: Baseline / Clásico', method: 'Máquina Espresso', ratio: '1:2', grind: 'Fina', temp: '90°C - 92°C', technique: 'Busca textura pesada. Ratios cortos previenen la sobre-extracción.', variant: { name: 'Estilo Ristretto', desc: 'Molienda más fina, busca ratio 1:1.5.' }, steps: [{time:0, text:'WDT y Tamp firme.'},{time:5, text:'Bomba ON a 9 Bares (Pre-infusión nula).'},{time:15, text:'Flujo constante y viscoso.'},{time:28, text:'Corte exacto en 36g de salida.'}] }
             ]
         }
     };
 
-    const AppState = { cart: JSON.parse(localStorage.getItem('pulso_cart')) || [], sensoryChart: null, currentProduct: null, brewTimer: { interval: null, seconds: 0 } };
+    const AppState = { cart: JSON.parse(localStorage.getItem('pulso_cart')) || [], sensoryChart: null, tastifyChart: null, currentProduct: null, brewTimer: { interval: null, seconds: 0 } };
+
+    const debounce = (func, delay) => {
+        let timeoutId;
+        return (...args) => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(null, args), delay);
+        };
+    };
 
     const UI = {
         updateCart() {
@@ -688,11 +798,39 @@
                 </div>`).join('') || '<p style="text-align:center;color:#888;">Archivo vacío.</p>';
         },
 
-        renderShop(cat) {
-            const grid = document.getElementById('shop-grid');
-            if(!grid) return;
+        handleSearch(val) {
+            val = val.toLowerCase();
+            const drop = document.getElementById('searchDropdown');
+            if(val.length < 2) { drop.classList.remove('active'); return; }
             
-            document.querySelectorAll('.filter-item').forEach(i => i.classList.toggle('active', i.dataset.cat === cat));
+            const hits = DB.catalog.filter(({ name, trace }) => 
+                name.toLowerCase().includes(val) || (trace && trace.origen && trace.origen.toLowerCase().includes(val))
+            );
+
+            if(hits.length > 0) {
+                drop.innerHTML = hits.map(h => `
+                    <div class="search-item" data-action="view-product" data-id="${h.id}">
+                        <img src="${h.img}" alt="${h.name}">
+                        <div class="search-item-info"><h4>${h.name}</h4><span>${formatCLP(h.basePrice)}</span></div>
+                    </div>
+                `).join('');
+                drop.classList.add('active');
+            } else {
+                drop.classList.remove('active');
+            }
+        },
+
+        renderShop(cat, targetBtn) {
+            const filterContainer = document.getElementById('shop-filters');
+            if(filterContainer) {
+                filterContainer.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+                if(targetBtn) {
+                    targetBtn.classList.add('active');
+                } else {
+                    const defaultBtn = filterContainer.querySelector(`.filter-item[data-cat="${cat}"]`);
+                    if(defaultBtn) defaultBtn.classList.add('active');
+                }
+            }
             
             let items = cat === 'all' ? [...DB.catalog] : DB.catalog.filter(p => p.cat === cat);
             
@@ -700,102 +838,234 @@
             if (sortVal === 'price-asc') items.sort((a,b) => a.basePrice - b.basePrice);
             else if (sortVal === 'price-desc') items.sort((a,b) => b.basePrice - a.basePrice);
             else if (sortVal === 'name-asc') items.sort((a,b) => a.name.localeCompare(b.name));
-            
+
+            const grid = document.getElementById('shop-grid');
+            if(!grid) return;
+
             grid.innerHTML = items.map(p => `
                 <div class="card reveal active" data-action="view-product" data-id="${p.id}">
                     <div class="card-img"><img src="${p.img}" loading="lazy"></div>
                     <div class="card-body">
                         <div class="card-meta">${p.badge}</div>
                         <h3 class="card-title">${p.name}</h3>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:auto; padding-top:15px; border-top:1px solid #f0f0f0;">
+                        <p style="font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 20px; flex-grow: 1;">${p.desc ? p.desc.substring(0,60) : ''}...</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f0f0f0; padding-top:15px;">
                             <span class="card-price">${formatCLP(p.basePrice)}</span>
                             <button class="btn btn-neon" style="padding: 8px 12px; font-size:10px;">Ver</button>
                         </div>
                     </div>
-                </div>`).join('');
+                </div>
+            `).join('');
         },
 
         renderProduct(id) {
-            const p = DB.catalog.find(x => x.id == id);
-            AppState.currentProduct = p;
+            AppState.currentProduct = DB.catalog.find(x => x.id == id);
+            const p = AppState.currentProduct;
+            if(!p) return;
+
             const isCoffee = ['origin', 'blend', 'premium'].includes(p.cat);
             
-            let variantsHtml = isCoffee ? `
-                <div class="variant-group"><h4>Tamaño</h4><div class="size-selector">
-                    <div class="size-btn active" data-action="update-price" data-mult="1">250g</div>
-                    <div class="size-btn" data-action="update-price" data-mult="3.5">1 Kg</div>
-                </div></div>
-                <div class="variant-group"><h4>Molienda</h4><div class="grind-grid">
-                    ${DB.grindOptions.map(g => `<div class="grind-opt ${g.id === 'bean' ? 'active' : ''}" data-action="select-grind">
-                        <i class="fa-solid ${g.icon}"></i><div><span style="font-size:13px; font-weight:600;">${g.name}</span><small style="display:block; font-size:11px; color:#888;">${g.desc}</small></div>
-                    </div>`).join('')}
-                </div></div>` : '';
+            let traceHtml = '', variantsHtml = '', sensoryHtml = '', flavorsHtml = '', relatedHtml = '';
 
-            let radarHtml = isCoffee ? `<div class="radar-box"><canvas id="radarChart"></canvas></div>` : '';
-            let traceHtml = (isCoffee && p.trace) ? `
+            if (isCoffee && p.trace) {
+                traceHtml = `
                 <details class="trace-accordion">
-                    <summary>Trazabilidad Completa <i class="fa-solid fa-chevron-down"></i></summary>
-                    <table class="trace-table"><tbody>${Object.entries(p.trace).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('')}</tbody></table>
-                </details>` : '';
+                    <summary>Ver Trazabilidad Completa <i class="fa-solid fa-chevron-down"></i></summary>
+                    <table class="trace-table">
+                        <tbody>
+                            ${Object.entries(p.trace).map(([key, val]) => `<tr><td>${key}</td><td>${val}</td></tr>`).join('')}
+                        </tbody>
+                    </table>
+                </details>`;
+            }
 
-            const related = DB.catalog.filter(c => c.id !== p.id && c.cat === p.cat).slice(0,4);
+            if(isCoffee) {
+                const grindHtml = DB.grindOptions.map(g => `
+                    <div class="grind-opt ${g.id === 'bean' ? 'active' : ''}" data-action="select-grind">
+                        <i class="fa-solid ${g.icon}"></i><div><span style="font-size:13px; font-weight:600;">${g.name}</span><small style="display:block; font-size:11px; color:#888;">${g.desc}</small></div>
+                    </div>
+                `).join('');
+                variantsHtml = `
+                    <div class="variant-group">
+                        <h4>Tamaño</h4>
+                        <div class="size-selector">
+                            <div class="size-btn active" data-action="update-price" data-mult="1">250g <span class="size-discount">Estándar</span></div>
+                            <div class="size-btn" data-action="update-price" data-mult="3.5">1 Kg <span class="size-discount">Ahorras 12%</span></div>
+                        </div>
+                    </div>
+                    <div class="variant-group">
+                        <h4>Molienda</h4>
+                        <div class="grind-grid">${grindHtml}</div>
+                    </div>`;
+            }
+
+            if(isCoffee && p.radar && p.tastify) {
+                sensoryHtml = `
+                <div class="sensory-charts-container">
+                    <div class="radar-box">
+                        <h4 class="chart-title">Estructura Base (SCA)</h4>
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                    <div class="radar-box">
+                        <h4 class="chart-title">Notas de Cata (Sensory Lexicon)</h4>
+                        <canvas id="tastifyChart"></canvas>
+                    </div>
+                </div>`;
+                flavorsHtml = `<div class="flavor-pills">${p.flavors.map(f => `<div class="f-pill">${f}</div>`).join('')}</div>`;
+            }
+
+            const relatedItems = DB.catalog.filter(c => c.id !== p.id && c.cat === p.cat).slice(0, 4);
+            if (relatedItems.length < 4 && !isCoffee) {
+                 const extra = DB.catalog.filter(c => c.cat === 'origin' || c.cat === 'blend').slice(0, 4 - relatedItems.length);
+                 relatedItems.push(...extra);
+            }
+
+            if(relatedItems.length > 0) {
+                relatedHtml = `
+                <section class="related-section reveal active">
+                    <h3>Recomendados para ti</h3>
+                    <div class="grid">
+                        ${relatedItems.map(r => `
+                            <div class="card" data-action="view-product" data-id="${r.id}">
+                                <div class="card-img"><img src="${r.img}" loading="lazy"></div>
+                                <div class="card-body">
+                                    <div class="card-meta">${r.badge}</div>
+                                    <h3 class="card-title">${r.name}</h3>
+                                    <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f0f0f0; padding-top:15px; margin-top:20px;">
+                                        <span class="card-price">${formatCLP(r.basePrice)}</span>
+                                        <button class="btn btn-cobalt" style="padding: 8px 12px; font-size:10px;">Ver</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>`;
+            }
 
             document.getElementById('product-target').innerHTML = `
                 <div class="detail-split reveal active">
                     <div class="detail-left">
                         <div class="detail-img-box"><img src="${p.img}"></div>
-                        ${radarHtml}
+                        ${sensoryHtml}
                     </div>
                     <div class="detail-info">
-                        <div class="card-meta" style="font-family:var(--font-mono); font-size:10px; color:var(--accent-alt); font-weight:700; margin-bottom:10px; text-transform:uppercase;">${p.cat} // ${p.badge}</div>
-                        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase; margin-bottom:15px;">${p.name}</h1>
+                        <div style="font-family:var(--font-mono); font-size:10px; color:var(--accent-alt); font-weight:700; margin-bottom:10px; text-transform:uppercase;">${p.cat} // ${p.badge}</div>
+                        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase; line-height:1; margin-bottom:15px; letter-spacing:-1px;">${p.name}</h1>
+                        ${flavorsHtml}
                         <div id="dynamic-price" style="font-size:32px; font-weight:800; color:var(--accent-alt); margin:20px 0; font-family:var(--font-mono);">${formatCLP(p.basePrice)}</div>
-                        <p style="margin-bottom:30px; line-height:1.6; color:#555;">${p.desc}</p>
-                        ${traceHtml} ${variantsHtml}
-                        <button class="btn btn-cobalt" data-action="add-cart" style="width:100%; padding:20px; font-size:14px;"><i class="fa-solid fa-cart-plus" style="margin-right:10px;"></i> Agregar al Archivo</button>
+                        <p style="font-size:16px; color:#555; line-height:1.6; margin-bottom:30px; font-weight:300;">${p.desc}</p>
+                        ${traceHtml}
+                        ${variantsHtml}
+                        <button class="btn btn-cobalt" data-action="add-cart" style="width: 100%; font-size: 14px; padding: 20px;">
+                            <i class="fa-solid fa-cart-plus"></i> Agregar al Archivo
+                        </button>
                     </div>
                 </div>
-                <section class="related-section reveal active">
-                    <h3>Recomendados para ti</h3>
-                    <div class="grid">${related.map(r => `
-                        <div class="card" data-action="view-product" data-id="${r.id}">
-                            <div class="card-img"><img src="${r.img}"></div>
-                            <div class="card-body">
-                                <div class="card-meta" style="font-family:var(--font-mono); font-size:10px; color:var(--accent-alt); font-weight:700; margin-bottom:10px; text-transform:uppercase;">${r.badge}</div>
-                                <h3 class="card-title" style="font-family:var(--font-head); font-size:20px; line-height:1.2; margin-bottom:8px;">${r.name}</h3>
-                                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f0f0f0; padding-top:15px; margin-top:20px;">
-                                    <span class="card-price" style="font-family:var(--font-mono); font-weight:700; font-size:15px;">${formatCLP(r.basePrice)}</span>
-                                    <button class="btn btn-cobalt" style="padding: 8px 12px; font-size:10px;">Ver</button>
-                                </div>
-                            </div>
-                        </div>`).join('')}
-                    </div>
-                </section>`;
-            
-            if(isCoffee) this.initRadar(p.radar);
-        },
+                ${relatedHtml}
+            `;
 
-        initRadar(data) {
-            requestAnimationFrame(() => {
-                setTimeout(() => {
-                    const ctx = document.getElementById('radarChart');
-                    if(!ctx || typeof Chart === 'undefined') return;
-                    if(AppState.sensoryChart) AppState.sensoryChart.destroy();
-                    AppState.sensoryChart = new Chart(ctx, {
+            if (isCoffee && p.radar && p.tastify) {
+                const renderCharts = () => {
+                    if (typeof Chart === 'undefined') {
+                        setTimeout(renderCharts, 50);
+                        return;
+                    }
+                    
+                    const ctxRadar = document.getElementById('radarChart');
+                    const ctxTastify = document.getElementById('tastifyChart');
+                    
+                    if (!ctxRadar || !ctxTastify) return;
+                    
+                    if (AppState.sensoryChart) AppState.sensoryChart.destroy();
+                    if (AppState.tastifyChart) AppState.tastifyChart.destroy();
+                    
+                    AppState.sensoryChart = new Chart(ctxRadar, {
                         type: 'radar',
                         data: {
                             labels: ['Dulzor', 'Acidez', 'Cuerpo', 'Floral', 'Postgusto'],
                             datasets: [{
-                                data, backgroundColor: 'rgba(57, 255, 20, 0.2)', borderColor: '#39FF14',
-                                pointBackgroundColor: '#0D0D0D', pointHoverRadius: 8, borderWidth: 2, tension: 0.4
+                                label: 'Estructura Sensorial',
+                                data: p.radar,
+                                backgroundColor: 'rgba(57, 255, 20, 0.2)',
+                                borderColor: '#39FF14',
+                                pointBackgroundColor: '#0D0D0D',
+                                pointBorderColor: '#39FF14',
+                                pointHoverBackgroundColor: '#0038FF',
+                                pointHoverBorderColor: '#fff',
+                                pointHoverRadius: 8,
+                                pointRadius: 4,
+                                borderWidth: 2,
+                                tension: 0.4
                             }]
                         },
-                        options: { scales: { r: { min: 0, max: 10, ticks: { display: false } } }, plugins: { legend: { display: false } } }
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                r: {
+                                    min: 0, max: 10,
+                                    ticks: { display: false },
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    angleLines: { color: 'rgba(0,0,0,0.1)' },
+                                    pointLabels: { font: { family: 'Inter', size: 11, weight: '600' }, color: '#666' }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: {
+                                    backgroundColor: '#0D0D0D',
+                                    titleFont: { family: 'Syne', size: 14 },
+                                    bodyFont: { family: 'JetBrains Mono', size: 13 },
+                                    padding: 15, cornerRadius: 4, displayColors: false,
+                                    callbacks: { label: (context) => `Intensidad: ${context.raw}/10` }
+                                }
+                            },
+                            interaction: { mode: 'nearest', intersect: true },
+                            animation: { duration: 1200, easing: 'easeOutQuart' }
+                        }
                     });
-                }, 100);
-            });
+
+                    AppState.tastifyChart = new Chart(ctxTastify, {
+                        type: 'polarArea',
+                        data: {
+                            labels: p.tastify.labels,
+                            datasets: [{
+                                data: p.tastify.data,
+                                backgroundColor: p.tastify.colors,
+                                borderColor: 'transparent',
+                                borderWidth: 2,
+                                hoverBorderColor: '#000'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            scales: {
+                                r: {
+                                    min: 0, max: 10,
+                                    ticks: { display: false },
+                                    grid: { color: 'rgba(0,0,0,0.05)' },
+                                    angleLines: { display: false }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: 'bottom', labels: { font: { family: 'Inter', size: 10 }, color: '#666' } },
+                                tooltip: {
+                                    backgroundColor: '#0D0D0D',
+                                    titleFont: { family: 'Syne', size: 14 },
+                                    bodyFont: { family: 'JetBrains Mono', size: 13 },
+                                    padding: 15, cornerRadius: 4, displayColors: true,
+                                    callbacks: { label: (context) => ` Intensidad: ${context.raw}/10` }
+                                }
+                            },
+                            animation: { duration: 1200, easing: 'easeOutQuart' }
+                        }
+                    });
+                };
+                requestAnimationFrame(() => setTimeout(renderCharts, 100));
+            }
         },
-        
+
         renderGuides(type) {
             const list = DB.brewGuides[type];
             document.getElementById('guide-nav').innerHTML = list.map((g, i) => `
@@ -809,7 +1079,7 @@
         },
 
         showGuideData(g) {
-            if(AppState.brewTimer.interval) { clearInterval(AppState.brewTimer.interval); AppState.brewTimer.interval = null; AppState.brewTimer.seconds = 0; }
+            this.stopBrewTimer();
             
             let variantHtml = g.variant ? `
                 <div class="variant-box">
@@ -838,78 +1108,29 @@
                     </div>
                 </div>
             `;
-        }
-    };
+        },
 
-    document.body.addEventListener('click', e => {
-        const t = e.target.closest('[data-action]');
-        if(!t) return;
-        const a = t.dataset.action;
+        stopBrewTimer() {
+            if(AppState.brewTimer.interval) { clearInterval(AppState.brewTimer.interval); AppState.brewTimer.interval = null; }
+            AppState.brewTimer.seconds = 0;
+        },
 
-        if(a === 'toggle-cart') { document.getElementById('cartDrawer').classList.toggle('active'); document.getElementById('cartOverlay').classList.toggle('active'); }
-        if(a === 'filter') UI.renderShop(t.dataset.cat);
-        if(a === 'filter-nav') { window.location.hash = '#/shop'; setTimeout(() => UI.renderShop(t.dataset.cat), 50); }
-        if(a === 'view-product') window.location.hash = `#/product/${t.dataset.id}`;
-        if(a === 'select-grind') { document.querySelectorAll('.grind-opt').forEach(b => b.classList.remove('active')); t.classList.add('active'); }
-        if(a === 'update-price') { 
-            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active')); 
-            t.classList.add('active'); 
-            document.getElementById('dynamic-price').innerText = formatCLP(AppState.currentProduct.basePrice * parseFloat(t.dataset.mult)); 
-        }
-        if(a === 'add-cart') {
-            const size = document.querySelector('.size-btn.active')?.innerText.split('\n')[0].trim() || 'Unidad';
-            const grind = document.querySelector('.grind-opt.active span')?.innerText || 'N/A';
-            const price = parseFloat(document.getElementById('dynamic-price').innerText.replace(/[^0-9,-]+/g,""));
-            AppState.cart.push({ ...AppState.currentProduct, size, grind, price });
-            UI.updateCart();
-            document.getElementById('cartDrawer').classList.add('active');
-            document.getElementById('cartOverlay').classList.add('active');
-        }
-        if(a === 'remove-cart') { AppState.cart.splice(t.dataset.idx, 1); UI.updateCart(); }
-        if(a === 'switch-oracle') {
-            document.querySelectorAll('.o-tab').forEach(x => x.classList.remove('active'));
-            t.classList.add('active');
-            document.getElementById('oracle-manual').style.display = t.dataset.view === 'manual' ? 'block' : 'none';
-            document.getElementById('oracle-ai').style.display = t.dataset.view === 'ai' ? 'block' : 'none';
-        }
-        if(a === 'run-ai') {
-            document.getElementById('ai-loading').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('ai-loading').style.display = 'none';
-                UI.renderShop('origin');
-                document.getElementById('ai-results').innerHTML = document.getElementById('shop-grid').innerHTML;
-            }, 1200);
-        }
-        if(a === 'lab-tab') {
-            document.querySelectorAll('.l-tab').forEach(x => x.classList.remove('active'));
-            t.classList.add('active');
-            UI.renderGuides(t.dataset.type);
-        }
-        if(a === 'view-guide') {
-            document.querySelectorAll('.guide-opt').forEach(x => x.classList.remove('active'));
-            t.classList.add('active');
-            UI.showGuideData(DB.brewGuides[t.dataset.type][t.dataset.idx]);
-        }
-        if(a === 'download-pdf') {
-            // Imprime usando CSS @media print
-            window.print();
-        }
-        if(a === 'toggle-timer') {
-            let type = 'filter';
-            let g = DB.brewGuides.filter.find(x => x.id === t.dataset.id);
-            if(!g) { g = DB.brewGuides.espresso.find(x => x.id === t.dataset.id); type = 'espresso'; }
+        toggleTimer(id, btn) {
+            let g = DB.brewGuides.filter.find(x => x.id === id) || DB.brewGuides.espresso.find(x => x.id === id);
 
-            const btn = document.getElementById('b-btn');
             if(AppState.brewTimer.interval) {
-                clearInterval(AppState.brewTimer.interval); AppState.brewTimer.interval = null; AppState.brewTimer.seconds = 0;
-                btn.innerText = "INICIAR PULSO (RELOJ)"; btn.style.background = "var(--accent)"; btn.style.color = "var(--dark)";
+                this.stopBrewTimer();
+                btn.innerText = "INICIAR PULSO"; btn.style.background = "var(--accent)"; btn.style.color = "var(--dark)";
                 document.getElementById('b-timer').innerText = "00:00";
                 document.querySelectorAll('.step-item').forEach(x => x.classList.remove('active'));
                 return;
             }
-            btn.innerText = "DETENER RELOJ"; btn.style.background = "#fff"; btn.style.color = "#000";
+            
+            btn.innerText = "DETENER RELOJ";
+            btn.style.background = "#fff"; btn.style.color = "#000";
             
             const stepNodes = Array.from(document.querySelectorAll('.step-item'));
+            
             AppState.brewTimer.interval = setInterval(() => {
                 AppState.brewTimer.seconds++;
                 let s = AppState.brewTimer.seconds;
@@ -917,9 +1138,153 @@
                 
                 let activeIdx = -1;
                 g.steps.forEach((step, idx) => { if(s >= step.time) activeIdx = idx; });
+                
                 stepNodes.forEach((el, idx) => el.classList.toggle('active', idx === activeIdx));
             }, 1000);
+        },
+
+        simulateAI() {
+            const prompt = document.getElementById('ai-input').value.toLowerCase();
+            if(!prompt) return;
+            
+            document.getElementById('ai-loading').style.display = 'block';
+            document.getElementById('ai-results').innerHTML = '';
+            
+            setTimeout(() => {
+                const results = DB.catalog
+                    .filter(c => ['origin', 'blend', 'premium'].includes(c.cat))
+                    .map(m => {
+                        let score = 0;
+                        const str = `${m.desc} ${m.flavors ? m.flavors.join(' ') : ''} ${m.name}`.toLowerCase();
+                        if(prompt.includes('dulce') && str.includes('dulz')) score += 2;
+                        if(prompt.includes('chocolate') && str.includes('choc')) score += 3;
+                        if((prompt.includes('fruta') || prompt.includes('frutal')) && str.includes('frut')) score += 3;
+                        if(prompt.includes('geisha') && str.includes('geisha')) score += 5;
+                        if(prompt.includes('espresso') && str.includes('espresso')) score += 3;
+                        if(prompt.includes('filtro') && str.includes('filtro')) score += 2;
+                        return { ...m, score };
+                    })
+                    .sort((a,b) => b.score - a.score)
+                    .slice(0,3);
+
+                document.getElementById('ai-loading').style.display = 'none';
+                
+                document.getElementById('ai-results').innerHTML = results.map(p => `
+                    <div class="card reveal active" data-action="view-product" data-id="${p.id}">
+                        <div class="card-img"><img src="${p.img}"></div>
+                        <div class="card-body">
+                            <div class="card-meta">${p.badge}</div>
+                            <h3 class="card-title">${p.name}</h3>
+                            <div style="font-size:11px; color:var(--accent-alt); font-family:var(--font-mono); margin-top:10px;">MATCH GHALI: ${Math.min(99, p.score * 15 + 40)}%</div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid #f0f0f0; padding-top:15px; margin-top:15px;">
+                                <span class="card-price">${formatCLP(p.basePrice)}</span>
+                                <button class="btn btn-neon" style="padding: 8px 12px; font-size:10px;">Ver</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }, 1500);
         }
+    };
+
+    const Actions = {
+        'toggle-cart': () => {
+            document.getElementById('cartDrawer').classList.toggle('active'); 
+            document.getElementById('cartOverlay').classList.toggle('active');
+        },
+        'filter': (t) => UI.renderShop(t.dataset.cat, t),
+        'filter-nav': (t) => {
+            window.location.hash = '#/shop';
+            setTimeout(() => UI.renderShop(t.dataset.cat), 50);
+        },
+        'view-product': (t) => {
+            window.location.hash = `#/product/${t.dataset.id}`;
+            document.getElementById('searchDropdown').classList.remove('active');
+            document.getElementById('navSearchInput').value = '';
+        },
+        'update-price': (t) => {
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            t.classList.add('active');
+            document.getElementById('dynamic-price').innerText = formatCLP(AppState.currentProduct.basePrice * parseFloat(t.dataset.mult));
+        },
+        'select-grind': (t) => {
+            document.querySelectorAll('.grind-opt').forEach(b => b.classList.remove('active'));
+            t.classList.add('active');
+        },
+        'add-cart': () => {
+            const sizeBtn = document.querySelector('.size-btn.active');
+            const grindBtn = document.querySelector('.grind-opt.active');
+            let mult = sizeBtn ? parseFloat(sizeBtn.dataset.mult) : 1;
+            
+            AppState.cart.push({
+                id: AppState.currentProduct.id,
+                name: AppState.currentProduct.name,
+                img: AppState.currentProduct.img,
+                size: sizeBtn ? sizeBtn.innerText.split('\n')[0].trim() : 'Unidad',
+                grind: grindBtn ? grindBtn.querySelector('span').innerText : 'N/A',
+                price: AppState.currentProduct.basePrice * mult
+            });
+            UI.updateCart();
+            document.getElementById('cartDrawer').classList.add('active'); 
+            document.getElementById('cartOverlay').classList.add('active');
+        },
+        'remove-cart': (t) => {
+            AppState.cart.splice(parseInt(t.dataset.idx), 1);
+            UI.updateCart();
+        },
+        'switch-oracle': (t) => {
+            document.querySelectorAll('.o-tab').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            document.getElementById('oracle-manual').style.display = t.dataset.view === 'manual' ? 'block' : 'none';
+            document.getElementById('oracle-ai').style.display = t.dataset.view === 'ai' ? 'block' : 'none';
+        },
+        'run-ai': () => UI.simulateAI(),
+        'oracle-step': (t) => {
+            document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`o-step-${t.dataset.next}`).classList.add('active');
+        },
+        'oracle-store': (t) => {
+            AppState.oracleData[t.dataset.key] = t.dataset.val;
+            Actions['oracle-step'](t);
+        },
+        'oracle-finish': (t) => {
+            AppState.oracleData.method = t.dataset.val;
+            let matchId = 6;
+            const { method, flavor, acidity } = AppState.oracleData;
+            
+            if(method === 'filter' && flavor === 'fruit') matchId = 2;
+            if(flavor === 'funky') matchId = 8;
+            if(method === 'espresso' && acidity === 'low') matchId = 5;
+            if(acidity === 'high' && flavor === 'fruit') matchId = 11;
+            
+            window.location.hash = `#/product/${matchId}`;
+            setTimeout(() => {
+                document.querySelectorAll('.oracle-step').forEach(s => s.classList.remove('active'));
+                document.getElementById('o-step-1').classList.add('active');
+            }, 1000);
+        },
+        'lab-tab': (t) => {
+            document.querySelectorAll('.l-tab').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            UI.renderGuides(t.dataset.type);
+        },
+        'view-guide': (t) => {
+            document.querySelectorAll('.guide-opt').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+            UI.showGuideData(DB.brewGuides[t.dataset.type][t.dataset.idx]);
+        },
+        'toggle-timer': (t) => UI.toggleTimer(t.dataset.id, t),
+        'download-pdf': () => window.print()
+    };
+
+    document.body.addEventListener('click', e => {
+        const t = e.target.closest('[data-action]');
+        if(!t) {
+            if(!e.target.closest('.nav-search')) document.getElementById('searchDropdown').classList.remove('active');
+            return;
+        }
+        const action = Actions[t.dataset.action];
+        if (action) action(t);
     });
 
     document.body.addEventListener('change', e => {
@@ -929,7 +1294,7 @@
         }
     });
 
-    UI.searchInp.addEventListener('input', debounce(e => UI.handleSearch(e.target.value), 300));
+    document.getElementById('navSearchInput').addEventListener('input', debounce(e => UI.handleSearch(e.target.value), 300));
 
     let rafId;
     window.addEventListener('scroll', () => {
