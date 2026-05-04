@@ -23,6 +23,7 @@
             --font-main: 'Inter', sans-serif;
             --font-head: 'Syne', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
+            --nav-h: 90px;
         }
 
         /* --- RESET --- */
@@ -35,7 +36,6 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .parallax-bg { position: absolute; top: -10%; left: 0; width: 100%; height: 120%; object-fit: cover; z-index: -1; will-change: transform; pointer-events: none; }
         .img-parallax-container { position: relative; overflow: hidden; border-radius: 8px; }
-        
         @keyframes rotateStar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .star-icon { display: inline-block; animation: rotateStar 10s linear infinite; color: var(--accent-alt); font-size: 0.8em; }
 
@@ -47,22 +47,28 @@
         .btn-cobalt { background: var(--accent-alt); color: #fff; border-color: var(--accent-alt); }
         .btn-cobalt:hover { background: var(--dark); color: #fff; }
 
-        /* --- NAVIGATION --- */
-        nav { position: fixed; top: 0; width: 100%; height: 90px; background: rgba(249, 248, 246, 0.95); z-index: 2000; border-bottom: 1px solid rgba(0,0,0,0.05); transition: 0.4s; backdrop-filter: blur(20px); }
+        /* --- NAVIGATION & MEGA MENU --- */
+        nav { position: fixed; top: 0; width: 100%; height: var(--nav-h); background: rgba(249, 248, 246, 0.95); z-index: 2000; border-bottom: 1px solid rgba(0,0,0,0.05); transition: 0.4s; backdrop-filter: blur(20px); }
         nav.scrolled { height: 70px; background: rgba(249, 248, 246, 0.8); }
-        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; height: 100%; position: relative; }
         .logo-full { font-family: var(--font-head); font-size: 32px; font-weight: 800; letter-spacing: -2px; color: var(--dark); text-decoration: none; }
-        .nav-links { display: flex; gap: 30px; align-items: center; }
-        .nav-link { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; position: relative; }
+        
+        .nav-links { display: flex; gap: 30px; align-items: center; height: 100%; }
+        .nav-item { position: relative; display: flex; align-items: center; height: 100%; }
+        .nav-link { text-decoration: none; color: var(--dark); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; position: relative; }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 1px; bottom: -4px; left: 0; background: var(--accent-alt); transition: 0.3s; }
         .nav-link:hover::after, .nav-link.active::after { width: 100%; }
         
+        .mega-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(15px); width: 90vw; max-width: 1100px; background: var(--surface); border: 1px solid var(--border); padding: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; opacity: 0; pointer-events: none; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.1); z-index: 2001; }
+        .nav-item:hover .mega-menu { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+        .mega-col h4 { font-family: var(--font-mono); font-size: 10px; color: var(--accent-alt); text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+        .mega-link { display: block; text-decoration: none; color: var(--dark); font-family: var(--font-head); font-size: 16px; margin-bottom: 10px; transition: 0.2s; }
+        .mega-link:hover { color: var(--accent-alt); transform: translateX(5px); }
+
         .nav-search { position: relative; display: flex; align-items: center; background: #fff; border: 1px solid var(--border); padding: 6px 15px; border-radius: 30px; transition: 0.3s; }
         .nav-search:focus-within { border-color: var(--accent-alt); box-shadow: 0 0 15px rgba(0, 56, 255, 0.1); }
-        .nav-search input { border: none; outline: none; background: transparent; padding: 5px; font-family: var(--font-main); font-size: 12px; width: 120px; transition: width 0.3s; }
+        .nav-search input { border: none; outline: none; background: transparent; padding: 5px; font-family: var(--font-main); font-size: 12px; width: 120px; transition: 0.3s; }
         .nav-search input:focus { width: 220px; }
-        .nav-search i { color: #888; font-size: 14px; }
-        
         .search-dropdown { position: absolute; top: 50px; right: 0; width: 350px; background: #fff; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-radius: 8px; display: none; max-height: 400px; overflow-y: auto; z-index: 2001; }
         .search-dropdown.active { display: block; }
         .search-item { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid #f5f5f5; cursor: pointer; transition: 0.2s; align-items: center; }
@@ -82,7 +88,7 @@
         .cart-drawer { position: fixed; top: 0; right: -500px; width: 100%; max-width: 450px; height: 100vh; background: var(--surface); z-index: 3000; box-shadow: -10px 0 40px rgba(0,0,0,0.05); transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; }
         .cart-drawer.active { right: 0; }
         .cart-header { padding: 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-        .cart-header h2 { font-family: var(--font-head); font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .cart-header h2 { font-family: var(--font-head); font-size: 20px; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
         .cart-body { padding: 30px; flex-grow: 1; overflow-y: auto; }
         .cart-item { display: flex; gap: 20px; margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #f5f5f5; }
         .cart-item img { width: 70px; height: 70px; object-fit: contain; mix-blend-mode: multiply; background: #F8F7F2; border-radius: 4px; padding: 5px; }
@@ -90,7 +96,7 @@
         .cart-item-title { font-family: var(--font-head); font-size: 15px; margin-bottom: 5px; line-height: 1.2; }
         .cart-item-meta { font-size: 11px; color: #888; margin-bottom: 8px; }
         .cart-item-price { font-family: var(--font-mono); font-weight: 700; font-size: 13px; color: var(--accent-alt); }
-        .remove-item { background: none; border: none; color: #ff3333; cursor: pointer; font-size: 10px; text-transform: uppercase; font-weight: 600; margin-top: 10px; }
+        .remove-item { background: none; border: none; color: #ff3333; cursor: pointer; font-size: 10px; text-transform: uppercase; font-weight: 600; margin-top: 10px; padding: 0;}
         .cart-footer { padding: 30px; border-top: 1px solid var(--border); background: #fafafa; }
         .cart-total { display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; font-family: var(--font-head); margin-bottom: 20px; }
 
@@ -111,45 +117,68 @@
         .marquee-inner { display: flex; animation: scroll 35s linear infinite; white-space: nowrap; }
         .marquee-inner span { margin: 0 40px; }
         .marquee-inner span b { color: var(--accent-alt); }
-        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-        .big-copy { font-family: var(--font-head); font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; text-transform: uppercase; letter-spacing: -2px; max-width: 1000px; margin: 150px auto; text-align: center; }
-        .big-copy span { color: var(--accent-alt); }
+        .avant-garde-section { padding: 120px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .avant-garde-text h2 { font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.9; text-transform: uppercase; font-family: var(--font-head); letter-spacing: -2px; }
+        .avant-garde-text h2 .stroke { color: transparent; -webkit-text-stroke: 1px var(--dark); }
+        .avant-garde-text p { font-size: 18px; color: #555; line-height: 1.6; margin-top: 30px; font-weight: 500; max-width: 450px; }
+        .avant-garde-stats { display: flex; flex-direction: column; gap: 30px; border-left: 1px solid var(--dark); padding-left: 40px; }
+        .stat-item h4 { font-family: var(--font-mono); font-size: 40px; color: var(--accent-alt); margin-bottom: 5px; }
+        .stat-item p { font-size: 12px; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
 
-        .cotm-banner { display: grid; grid-template-columns: 1fr 1fr; background: var(--dark); color: #fff; border-radius: 12px; overflow: hidden; margin: 100px 0; }
-        .cotm-img { position: relative; min-height: 400px; overflow: hidden; }
-        .cotm-info { padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; }
+        .cotm-full { width: 100vw; max-width: 100vw; margin-left: calc(-50vw + 50%); margin-top: 80px; margin-bottom: 120px; background: var(--dark); color: #fff; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+        .cotm-full-img { position: relative; min-height: 500px; overflow: hidden; }
+        .cotm-full-img img { position: absolute; width: 100%; height: 130%; top: -15%; object-fit: cover; }
+        .cotm-full-info { padding: 8vw; display: flex; flex-direction: column; justify-content: center; }
 
-        /* --- SHOP GRID & FILTERS --- */
-        .filter-tabs { display: flex; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
-        .tab-btn { background: #fff; border: 1px solid var(--border); padding: 10px 20px; font-family: var(--font-head); text-transform: uppercase; font-size: 12px; color: #666; cursor: pointer; transition: 0.3s; border-radius: 30px; }
-        .tab-btn:hover, .tab-btn.active { background: var(--dark); color: #fff; border-color: var(--dark); }
+        .ig-section { width: 100vw; max-width: 100vw; margin-left: calc(-50vw + 50%); margin-top: 100px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+        .ig-post { position: relative; aspect-ratio: 1; overflow: hidden; background: #000; cursor: pointer; }
+        .ig-post img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(1); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .ig-post:hover img { opacity: 1; transform: scale(1.08); filter: grayscale(0); }
+        .ig-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 32px; opacity: 0; transition: 0.3s; z-index: 2; pointer-events: none; }
+        .ig-post:hover .ig-icon { opacity: 1; }
+
+        /* --- SHOP LAYOUT & FILTERS --- */
+        .shop-layout { display: grid; grid-template-columns: 240px 1fr; gap: 60px; margin-top: 40px; align-items: start; }
+        .shop-sidebar { position: sticky; top: 120px; background: var(--surface); padding: 20px; border-radius: 8px; border: 1px solid var(--border); }
+        .sidebar-title { font-family: var(--font-head); font-size: 11px; text-transform: uppercase; color: #888; margin-bottom: 20px; letter-spacing: 2px; }
+        .filter-list { list-style: none; }
+        .filter-item { padding: 12px 0; border-bottom: 1px solid #eee; cursor: pointer; transition: 0.3s; font-family: var(--font-head); font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .filter-item:last-child { border-bottom: none; }
+        .filter-item:hover { color: var(--accent-alt); padding-left: 8px; }
+        .filter-item.active { color: var(--accent-alt); font-weight: 800; border-bottom-color: var(--accent-alt); }
+        .filter-item span { font-family: var(--font-mono); font-size: 10px; opacity: 0.4; }
+
+        .shop-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+        .sort-container { display: flex; align-items: center; gap: 10px; }
+        .sort-container label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #888; }
+        .sort-container select { padding: 8px 15px; border: 1px solid var(--border); border-radius: 4px; font-family: var(--font-main); font-size: 13px; background: #fff; outline: none; cursor: pointer; transition: 0.3s; }
+        .sort-container select:focus { border-color: var(--accent-alt); }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; margin-bottom: 100px; }
         .card { background: #fff; border: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; transition: 0.4s; border-radius: 8px; overflow: hidden; }
         .card:hover { border-color: var(--accent-alt); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
         .card-img { padding: 40px; background: #F8F7F2; aspect-ratio: 1; display: flex; justify-content: center; align-items: center; }
-        .card-img img { max-width: 90%; transition: 0.5s; filter: drop-shadow(0 15px 15px rgba(0,0,0,0.08)); }
-        .card:hover .card-img img { transform: scale(1.1); }
+        .card-img img { max-width: 85%; mix-blend-mode: multiply; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1)); transition: 0.5s; }
         .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
         .card-meta { font-family: var(--font-mono); font-size: 10px; color: var(--accent-alt); font-weight: 700; margin-bottom: 10px; text-transform: uppercase; }
         .card-title { font-family: var(--font-head); font-size: 20px; line-height: 1.2; margin-bottom: 8px; }
         .card-price { font-family: var(--font-mono); font-weight: 700; font-size: 15px; }
 
         /* --- PRODUCT DETAIL --- */
-        .detail-split { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; margin: 60px 0 100px; align-items: start; }
+        .detail-split { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; margin: 60px 0; align-items: start; }
         .detail-img-box { background: #F8F7F2; padding: 80px; display: flex; justify-content: center; border: 1px solid var(--border); border-radius: 12px; position: sticky; top: 110px; overflow: hidden; }
-        .detail-img-box img { width: 100%; max-width: 450px; z-index: 2; position: relative; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.1)); }
+        .detail-img-box img { width: 100%; max-width: 450px; z-index: 2; position: relative; mix-blend-mode: multiply; filter: drop-shadow(0 30px 40px rgba(0,0,0,0.15)); }
         
-        .trace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 40px; }
-        .trace-item { background: #fff; padding: 15px; border: 1px solid var(--border); border-radius: 6px; }
-        .trace-label { font-family: var(--font-mono); font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 5px; }
-        .trace-val { font-weight: 600; font-size: 14px; }
-        
-        .flavor-pills { display: flex; gap: 10px; margin-bottom: 40px; flex-wrap: wrap; }
+        .radar-box { width: 100%; max-width: 380px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 50%; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+        .flavor-pills { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .f-pill { background: rgba(0, 56, 255, 0.05); color: var(--accent-alt); padding: 8px 16px; border-radius: 30px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
 
-        .radar-box { width: 100%; max-width: 350px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .trace-accordion { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 35px; overflow: hidden; background: #fff; }
+        .trace-accordion summary { padding: 20px; font-family: var(--font-head); font-size: 13px; text-transform: uppercase; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; background: #fafafa; font-weight: 700; }
+        .trace-table { width: 100%; border-collapse: collapse; }
+        .trace-table td { padding: 15px 20px; border-top: 1px solid var(--border); font-size: 14px; }
+        .trace-table td:first-child { font-family: var(--font-mono); font-size: 10px; width: 40%; background: #fdfdfd; font-weight: 700; text-transform: uppercase; }
 
         .variant-group { margin-bottom: 35px; }
         .variant-group h4 { font-family: var(--font-head); font-size: 14px; text-transform: uppercase; margin-bottom: 15px; color: #888; }
@@ -165,16 +194,18 @@
         .grind-opt.active { background: rgba(0, 56, 255, 0.05); border-color: var(--accent-alt); box-shadow: 0 0 0 1px var(--accent-alt); }
         .grind-opt.active i { color: var(--accent-alt); }
 
-        /* --- ORACLE (AI + MANUAL) --- */
+        .related-section { margin-top: 100px; border-top: 1px solid var(--border); padding-top: 80px; }
+        .related-section h3 { font-family: var(--font-head); font-size: 32px; text-transform: uppercase; margin-bottom: 40px; }
+
+        /* --- ORACLE --- */
         .oracle-tabs { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; }
         .o-tab { font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; padding: 10px 20px; border: 1px solid var(--border); cursor: pointer; border-radius: 30px; transition: 0.3s; }
         .o-tab.active { background: var(--dark); color: #fff; border-color: var(--dark); }
-        
         .ai-prompt-box { max-width: 700px; margin: 0 auto; background: #fff; border: 1px solid var(--border); padding: 40px; border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
         .ai-prompt-box textarea { width: 100%; height: 120px; border: 1px solid var(--border); padding: 20px; font-family: var(--font-main); font-size: 16px; border-radius: 8px; resize: none; margin-bottom: 20px; outline: none; transition: 0.3s; }
         .ai-prompt-box textarea:focus { border-color: var(--accent-alt); box-shadow: 0 0 0 3px rgba(0,56,255,0.1); }
         .ai-loading { display: none; font-family: var(--font-mono); color: var(--accent-alt); font-size: 12px; text-align: center; margin-top: 20px; }
-
+        
         .oracle-step { display: none; }
         .oracle-step.active { display: block; animation: fadeIn 0.4s ease forwards; }
         .option-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 40px auto; max-width: 900px; text-align: center; }
@@ -190,8 +221,7 @@
         .brew-layout { display: grid; grid-template-columns: 1fr 2.5fr; gap: 40px; margin-bottom: 100px; }
         .brew-nav { display: flex; flex-direction: column; gap: 10px; max-height: 600px; overflow-y: auto; padding-right: 10px; }
         .guide-opt { padding: 15px 20px; border: 1px solid var(--border); cursor: pointer; font-family: var(--font-head); transition: 0.3s; background: #fff; border-radius: 8px; font-size: 14px; }
-        .guide-opt.active { background: var(--dark); color: #fff; }
-
+        .guide-opt.active { background: var(--dark); color: #fff; border-color: var(--dark); }
         .guide-display { background: #fff; padding: 50px; border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.04); }
         .brew-tech-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 30px 0; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; padding: 25px 0; }
         .b-tech-item { display: flex; align-items: center; gap: 15px; }
@@ -205,7 +235,6 @@
         /* --- ABOUT (HERO, VALUES, PROCESS, TIMELINE) --- */
         .about-hero { padding: 100px 0 60px; text-align: center; }
         .about-hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 8vw, 6rem); text-transform: uppercase; line-height: 0.9; margin-bottom: 30px; letter-spacing: -2px; }
-        
         .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 100px; }
         .value-card { background: #fff; border: 1px solid var(--border); padding: 40px; border-radius: 8px; transition: 0.3s; }
         .value-card:hover { border-color: var(--accent-alt); box-shadow: 0 15px 30px rgba(0, 56, 255, 0.05); transform: translateY(-5px); }
@@ -233,7 +262,7 @@
         .form-layout { max-width: 600px; margin: 0 auto 100px; }
         .input-group { margin-bottom: 25px; }
         .input-group label { display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; margin-bottom: 8px; color: #666; }
-        .input-group input, .input-group textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-family: var(--font-main); transition: 0.3s; outline: none; }
+        .input-group input, .input-group textarea { width: 100%; padding: 15px; border: 1px solid var(--border); background: #fff; border-radius: 4px; font-family: var(--font-main); outline: none; transition: 0.3s; }
         .input-group input:focus, .input-group textarea:focus { border-color: var(--dark); }
 
         footer { background: var(--dark); color: #fff; padding: 80px 0 40px; margin-top: 80px; }
@@ -241,8 +270,23 @@
         .footer-col a { display: block; color: #ccc; text-decoration: none; margin-bottom: 12px; font-size: 14px; transition: 0.2s; font-weight: 300; }
         .footer-col a:hover { color: var(--surface); transform: translateX(5px); }
 
+        .brew-nav::-webkit-scrollbar { width: 6px; }
+        .brew-nav::-webkit-scrollbar-track { background: transparent; }
+        .brew-nav::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
         @media (max-width: 1024px) {
-            .detail-split, .brew-layout, .cotm-banner { grid-template-columns: 1fr; }
+            .shop-layout { grid-template-columns: 1fr; }
+            .shop-sidebar { position: relative; top: 0; padding: 0; border: none; background: transparent; margin-bottom: 30px; }
+            .sidebar-title { display: none; }
+            .filter-list { display: flex; overflow-x: auto; gap: 10px; padding-bottom: 15px; }
+            .filter-item { border: 1px solid var(--border); background: #fff; border-radius: 30px; padding: 8px 16px; white-space: nowrap; }
+            .filter-item span { margin-left: 5px; }
+            .shop-header { flex-direction: column; align-items: flex-start; }
+            .detail-split, .cotm-full, .avant-garde-section, .brew-layout { grid-template-columns: 1fr; }
+            .avant-garde-text p { margin: 30px auto 0; }
+            .avant-garde-stats { border-left: none; border-top: 1px solid var(--dark); padding-left: 0; padding-top: 40px; flex-direction: row; justify-content: center; gap: 40px; }
+            .cotm-full-img { min-height: 300px; }
+            .ig-section { grid-template-columns: repeat(2, 1fr); }
             .process-grid { grid-template-columns: 1fr; gap: 30px; }
             .process-img { grid-row: auto !important; }
             .process-text { grid-row: auto !important; padding: 0; }
@@ -250,6 +294,7 @@
             .tl-item, .tl-item:nth-child(even) { flex-direction: column; align-items: flex-end; }
             .tl-content { width: calc(100% - 50px); }
             .tl-year { left: 20px; top: 0; }
+            .mega-menu { display: none; }
             .nav-links { display: none; }
             .nav-search input { width: 100px; }
         }
@@ -261,17 +306,39 @@
     <div class="container nav-content">
         <a href="#/home" class="logo-full">PULSO.</a>
         <div class="nav-links">
-            <a href="#/shop" class="nav-link" data-target="shop">Catálogo</a>
-            <a href="#/oracle" class="nav-link" data-target="oracle">Ghali AI</a>
-            <a href="#/lab" class="nav-link" data-target="lab">Brew Lab</a>
-            <a href="#/about" class="nav-link" data-target="about">Nosotros</a>
-            <a href="#/contact" class="nav-link" data-target="contact">Contacto</a>
-            <a href="#/b2b" class="nav-link" data-target="b2b" style="color:var(--accent-alt);">B2B</a>
+            <div class="nav-item">
+                <a href="#/shop" class="nav-link" data-target="shop">Catálogo <i class="fa-solid fa-chevron-down" style="font-size: 8px; margin-left: 4px;"></i></a>
+                <div class="mega-menu">
+                    <div class="mega-col">
+                        <h4>Café en Grano</h4>
+                        <a href="#/shop?cat=origin" class="mega-link" data-action="filter-nav" data-cat="origin">Single Origins</a>
+                        <a href="#/shop?cat=blend" class="mega-link" data-action="filter-nav" data-cat="blend">Signature Blends</a>
+                        <a href="#/shop?cat=premium" class="mega-link" data-action="filter-nav" data-cat="premium">Bóveda Premium</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Hardware</h4>
+                        <a href="#/shop?cat=machines" class="mega-link" data-action="filter-nav" data-cat="machines">Máquinas Espresso</a>
+                        <a href="#/shop?cat=methods" class="mega-link" data-action="filter-nav" data-cat="methods">Métodos Manuales</a>
+                        <a href="#/shop?cat=accessories" class="mega-link" data-action="filter-nav" data-cat="accessories">Herramientas</a>
+                    </div>
+                    <div class="mega-col">
+                        <h4>Cultura</h4>
+                        <a href="#/lab" class="mega-link">Brew Lab Pro</a>
+                        <a href="#/oracle" class="mega-link">Ghali AI Oracle</a>
+                        <a href="#/shop?cat=merch" class="mega-link" data-action="filter-nav" data-cat="merch">Apparel</a>
+                    </div>
+                </div>
+            </div>
+            <div class="nav-item"><a href="#/oracle" class="nav-link" data-target="oracle">Ghali AI</a></div>
+            <div class="nav-item"><a href="#/lab" class="nav-link" data-target="lab">Brew Lab</a></div>
+            <div class="nav-item"><a href="#/about" class="nav-link" data-target="about">Nosotros</a></div>
+            <div class="nav-item"><a href="#/contact" class="nav-link" data-target="contact">Contacto</a></div>
+            <div class="nav-item"><a href="#/b2b" class="nav-link" data-target="b2b" style="color:var(--accent-alt);">B2B</a></div>
         </div>
         <div class="nav-icons">
             <div class="nav-search">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" id="navSearchInput" placeholder="Buscar café, filtros..." autocomplete="off">
+                <input type="text" id="navSearchInput" placeholder="Buscar..." autocomplete="off">
                 <div class="search-dropdown" id="searchDropdown"></div>
             </div>
             <div class="cart-icon-wrapper" data-action="toggle-cart">
@@ -303,60 +370,88 @@
         <div class="hero-overlay"></div>
         <div class="container hero-text reveal">
             <h1>Siente el<br><span>Latido</span></h1>
-            <p>Curaduría técnica de orígenes raros para paladares que exigen excelencia absoluta.</p>
-            <a href="#/shop" class="btn btn-neon">Explorar Archivo</a>
+            <p>Curaduría técnica de orígenes raros. Ingeniería aplicada al tueste.</p>
+            <a href="#/shop" class="btn btn-neon">Explorar Catálogo</a>
         </div>
     </section>
 
     <div class="marquee">
         <div class="marquee-inner">
-            <span>✦ TRATO DIRECTO EN ORIGEN ✦</span><span>NO TOSTAMOS CAFÉ, <b>PROGRAMAMOS EXPERIENCIAS</b> ✦</span><span>CIENCIA Y BIOLOGÍA EN CADA TAZA ✦</span><span>COMERCIO JUSTO REAL ✦</span><span>CALIBRACIÓN TÉCNICA ABSOLUTA ✦</span>
-            <span>✦ TRATO DIRECTO EN ORIGEN ✦</span><span>NO TOSTAMOS CAFÉ, <b>PROGRAMAMOS EXPERIENCIAS</b> ✦</span><span>CIENCIA Y BIOLOGÍA EN CADA TAZA ✦</span><span>COMERCIO JUSTO REAL ✦</span><span>CALIBRACIÓN TÉCNICA ABSOLUTA ✦</span>
+            <span>✦ TRATO DIRECTO EN ORIGEN ✦</span><span>CIENCIA Y BIOLOGÍA ✦</span><span>COMERCIO JUSTO REAL ✦</span><span>PRECISIÓN TERMODINÁMICA ✦</span>
+            <span>✦ TRATO DIRECTO EN ORIGEN ✦</span><span>CIENCIA Y BIOLOGÍA ✦</span><span>COMERCIO JUSTO REAL ✦</span><span>PRECISIÓN TERMODINÁMICA ✦</span>
         </div>
     </div>
 
-    <section class="container">
-        <h2 class="big-copy reveal">El café sobretostado es un insulto a la <span>biología del grano</span>. Nosotros calibramos precisión.</h2>
+    <section class="container avant-garde-section reveal">
+        <div class="avant-garde-text">
+            <h2>Ciencia.<br><span class="stroke">Neurobiología.</span><br>Precisión. <i class="fa-solid fa-certificate star-icon"></i></h2>
+            <p>Tostamos datos, servimos arte. Nuestra misión es erradicar la mediocridad sensorial mediante el control térmico estricto.</p>
+        </div>
+        <div class="avant-garde-stats">
+            <div class="stat-item"><h4>86+</h4><p>SCA Score Mínimo Exigido</p></div>
+            <div class="stat-item"><h4>100%</h4><p>Transparencia Radical y Direct Trade</p></div>
+        </div>
     </section>
 
-    <section class="container reveal">
-        <div class="cotm-banner">
-            <div class="cotm-img img-parallax-container">
-                <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=800" class="parallax-target" style="width:100%; height:130%; object-fit:cover; position:absolute; top:-15%;">
-            </div>
-            <div class="cotm-info">
-                <div style="font-family:var(--font-mono); color:var(--accent); margin-bottom:10px; font-size:12px;">EDICIÓN LIMITADA // MES ACTUAL</div>
-                <h2 style="font-family:var(--font-head); font-size:48px; margin-bottom:20px; line-height:1;">Panamá Esmeralda Geisha</h2>
-                <p style="color:#aaa; line-height:1.6; margin-bottom:30px;">Una explosión de jazmín y bergamota. Solo 50 unidades disponibles tostadas bajo demanda con curva decreciente.</p>
-                <button class="btn btn-neon" style="width:max-content;" data-action="view-product" data-id="10">Adquirir Lote</button>
-            </div>
+    <section class="cotm-full reveal">
+        <div class="cotm-full-img img-parallax-container">
+            <img src="https://images.unsplash.com/photo-1559525839-b184a4d698c7?q=80&w=1200" class="parallax-target">
+        </div>
+        <div class="cotm-info">
+            <div style="font-family:var(--font-mono); color:var(--accent); margin-bottom:15px; font-size:12px;">DROP LIMITADO // MES ACTUAL</div>
+            <h2 style="font-family:var(--font-head); font-size:clamp(2.5rem, 5vw, 4rem); line-height:1;">Panamá Esmeralda Geisha</h2>
+            <p style="color:#aaa; line-height:1.6; margin: 30px 0; max-width: 500px;">Notas explosivas a jazmín y bergamota. Extraído del terroir de Boquete. Solo 50 unidades tostadas bajo demanda con curva decreciente.</p>
+            <button class="btn btn-neon" style="width:max-content;" data-action="view-product" data-id="10">Adquirir Lote Restringido</button>
         </div>
     </section>
 
     <section class="container reveal">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--border); padding-bottom:15px; margin-bottom:40px;">
             <h2 style="font-family:var(--font-head); font-size:40px; text-transform:uppercase;">Destacados</h2>
-            <a href="#/shop" style="color:var(--accent-alt); font-weight:700; font-size:14px; text-decoration:none;">Ver Catálogo</a>
+            <a href="#/shop" style="color:var(--accent-alt); font-weight:700; font-size:14px; text-decoration:none;">Ver Catálogo Completo</a>
         </div>
         <div class="grid" id="featured-grid"></div>
+    </section>
+
+    <section class="ig-section reveal">
+        <div class="ig-post"><img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=400"><i class="fa-brands fa-instagram ig-icon"></i></div>
+        <div class="ig-post"><img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=400"><i class="fa-brands fa-instagram ig-icon"></i></div>
+        <div class="ig-post"><img src="https://images.unsplash.com/photo-1585237730962-43ce9c2295a0?q=80&w=400"><i class="fa-brands fa-instagram ig-icon"></i></div>
+        <div class="ig-post"><img src="https://images.unsplash.com/photo-1611162458324-aae1eb4129a4?q=80&w=400"><i class="fa-brands fa-instagram ig-icon"></i></div>
     </section>
 </main>
 
 <main id="shop" class="view container">
-    <h1 style="font-family:var(--font-head); font-size:56px; text-transform:uppercase; margin-bottom:30px;">The Archive</h1>
-    <div class="filter-tabs" id="shop-filters">
-        <button class="tab-btn active" data-action="filter" data-cat="all">Todos</button>
-        <button class="tab-btn" data-action="filter" data-cat="origin">Single Origin</button>
-        <button class="tab-btn" data-action="filter" data-cat="blend">Blends</button>
-        <button class="tab-btn" data-action="filter" data-cat="premium">Super Premium</button>
-        <button class="tab-btn" data-action="filter" data-cat="machines">Máquinas</button>
-        <button class="tab-btn" data-action="filter" data-cat="methods">Métodos</button>
-        <button class="tab-btn" data-action="filter" data-cat="filters">Filtros</button>
-        <button class="tab-btn" data-action="filter" data-cat="accessories">Accesorios</button>
-        <button class="tab-btn" data-action="filter" data-cat="merch">Merch</button>
-        <button class="tab-btn" data-action="filter" data-cat="pack">Packs</button>
+    <div class="shop-layout">
+        <aside class="shop-sidebar">
+            <h3 class="sidebar-title">Bóveda</h3>
+            <ul class="filter-list" id="shop-filters">
+                <li class="filter-item active" data-action="filter" data-cat="all">Todos <span>20</span></li>
+                <li class="filter-item" data-action="filter" data-cat="origin">Single Origin <span>5</span></li>
+                <li class="filter-item" data-action="filter" data-cat="blend">Blends <span>4</span></li>
+                <li class="filter-item" data-action="filter" data-cat="premium">Premium <span>4</span></li>
+                <li class="filter-item" data-action="filter" data-cat="pack">Packs <span>1</span></li>
+                <li class="filter-item" data-action="filter" data-cat="machines">Máquinas <span>1</span></li>
+                <li class="filter-item" data-action="filter" data-cat="methods">Métodos <span>2</span></li>
+                <li class="filter-item" data-action="filter" data-cat="accessories">Accesorios <span>1</span></li>
+            </ul>
+        </aside>
+        <div class="shop-content">
+            <div class="shop-header">
+                <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase; margin: 0;">The Archive</h1>
+                <div class="sort-container">
+                    <label for="sort-select">Ordenar por:</label>
+                    <select id="sort-select" data-action="sort-catalog">
+                        <option value="default">Recomendados</option>
+                        <option value="price-asc">Precio: Menor a Mayor</option>
+                        <option value="price-desc">Precio: Mayor a Menor</option>
+                        <option value="name-asc">Nombre: A - Z</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid" id="shop-grid"></div>
+        </div>
     </div>
-    <div class="grid" id="shop-grid"></div>
 </main>
 
 <main id="product" class="view container">
@@ -364,9 +459,9 @@
 </main>
 
 <main id="oracle" class="view container">
-    <div class="reveal">
-        <h1 style="font-family:var(--font-head); font-size:56px; text-transform:uppercase; margin-bottom:10px; text-align:center;">Ghali:<br>El Oráculo Sensorial</h1>
-        <p style="text-align:center; color:#666; margin-bottom:40px; max-width: 600px; margin-left: auto; margin-right: auto;">Soy Ghali, el hijo moderno del legendario pastor Kaldi. A través de algoritmos de coincidencia y calibración sensorial, encontraré tu frecuencia perfecta en nuestra bóveda de cafés.</p>
+    <div class="reveal" style="text-align:center;">
+        <h1 style="font-family:var(--font-head); font-size:56px; text-transform:uppercase; margin-bottom:10px;">Ghali AI</h1>
+        <p style="color:#666; margin-bottom:40px; max-width: 600px; margin-inline: auto;">Hijo moderno de Kaldi. Inteligencia aplicada al match sensorial basado en perfiles termodinámicos.</p>
         
         <div class="oracle-tabs">
             <div class="o-tab" data-action="switch-oracle" data-view="manual">Cuestionario Sensorial</div>
@@ -375,17 +470,16 @@
 
         <div id="oracle-ai">
             <div class="ai-prompt-box">
-                <h3 style="font-family:var(--font-head); margin-bottom:15px;">Cuéntame, ¿qué buscas en tu taza hoy?</h3>
-                <textarea id="ai-input" placeholder="Ej: Busco un café para hacer V60, que sea muy dulce, floral y sin mucha acidez. Me gustan las notas a durazno y que tenga un cuerpo ligero como el té..."></textarea>
-                <button class="btn btn-cobalt" style="width:100%;" data-action="run-ai">Consultar a Ghali</button>
-                <div class="ai-loading" id="ai-loading">Ghali está analizando los perfiles termodinámicos y notas de cata de la bóveda...</div>
+                <textarea id="ai-input" placeholder="Describe tu café ideal... (Ej: Busco algo dulce, con notas a chocolate y cuerpo pesado)"></textarea>
+                <button class="btn btn-cobalt" style="width:100%;" data-action="run-ai">Consultar Oráculo</button>
+                <div class="ai-loading" id="ai-loading">Consultando la base de datos sensorial...</div>
             </div>
-            <div class="grid" id="ai-results" style="margin-top:50px;"></div>
+            <div class="grid" id="ai-results" style="margin-top:60px;"></div>
         </div>
 
-        <div id="oracle-manual" style="display:none;">
+        <div id="oracle-manual">
             <div class="oracle-step active" id="o-step-1">
-                <h3 style="font-size: 20px; margin-bottom: 30px; text-align:center;">Paso 1: ¿Conoces tu perfil de sabor ideal?</h3>
+                <h3 style="font-size: 20px; margin-bottom: 30px; text-align:center;">Paso 1: ¿Conoces tu perfil ideal?</h3>
                 <div class="option-grid">
                     <div class="option-box" data-action="oracle-step" data-next="2"><i class="fa-solid fa-brain"></i><h3>Sí, quiero calibrar.</h3></div>
                     <div class="option-box" data-action="view-product" data-id="14"><i class="fa-solid fa-box-open"></i><h3>No estoy seguro.</h3><p style="font-size:12px; color:#888;">Recomiéndame un Taster Pack.</p></div>
@@ -429,13 +523,10 @@
 
 <main id="lab" class="view container">
     <h1 style="font-family:var(--font-head); font-size:56px; text-transform:uppercase; margin-bottom:10px;">Brew Lab</h1>
-    <p style="color:#666; margin-bottom:40px;">Parámetros exactos basados en la literatura mundial del café de especialidad. Calibra tu técnica.</p>
-
-    <div class="lab-tabs">
+    <div style="display: flex; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
         <div class="l-tab active" data-action="lab-tab" data-type="filter">Filtrados & Inmersión</div>
         <div class="l-tab" data-action="lab-tab" data-type="espresso">Dial-in Espresso</div>
     </div>
-
     <div class="brew-layout reveal active">
         <div class="brew-nav" id="guide-nav"></div>
         <div id="guide-target"></div>
@@ -445,91 +536,46 @@
 <main id="about" class="view container">
     <div class="about-hero reveal">
         <h1>Data-Driven<br><span style="color: var(--accent); -webkit-text-stroke: 1px var(--dark);">Coffee Roasters.</span></h1>
-        <p style="font-size: 20px; font-weight: 700; max-width: 800px; margin: 0 auto;">PULSO es la intersección entre biotecnología agrícola y perfiles termodinámicos de tueste.</p>
+        <p style="font-size: 20px; font-weight: 700; max-width: 800px; margin: 30px auto;">PULSO es la intersección entre biotecnología agrícola y precisión térmica.</p>
     </div>
-
     <div class="values-grid reveal">
-        <div class="value-card">
-            <h4><i class="fa-solid fa-eye"></i> Visión</h4>
-            <p>Liderar la tercera ola del café en Sudamérica, desmitificando el rubro y demostrando que la excelencia sensorial nace de la ciencia, los datos y la transparencia radical en la cadena de suministro.</p>
-        </div>
-        <div class="value-card">
-            <h4><i class="fa-solid fa-bullseye"></i> Misión</h4>
-            <p>Erradicar el café aburrido y sobretostado empoderando al consumidor con educación técnica, y empoderando al productor pagándole precios que le permitan innovar en procesos botánicos.</p>
-        </div>
-        <div class="value-card">
-            <h4><i class="fa-solid fa-gem"></i> Valores</h4>
-            <p>Comercio Justo Real (Direct Trade), Innovación Termodinámica (Roast Profiling), Sostenibilidad (Tostamos con cero emisiones), y Obsesión por la Calidad (86+ SCA Score Mínimo).</p>
-        </div>
+        <div class="value-card"><h4 style="font-family: var(--font-head); font-size: 20px; margin-bottom: 15px;">Visión</h4><p style="font-size: 15px; color: #555; line-height: 1.6;">Liderar la tercera ola en Sudamérica mediante la ciencia y la transparencia radical.</p></div>
+        <div class="value-card"><h4 style="font-family: var(--font-head); font-size: 20px; margin-bottom: 15px;">Misión</h4><p style="font-size: 15px; color: #555; line-height: 1.6;">Erradicar el café aburrido empoderando al consumidor con educación técnica.</p></div>
+        <div class="value-card"><h4 style="font-family: var(--font-head); font-size: 20px; margin-bottom: 15px;">Valores</h4><p style="font-size: 15px; color: #555; line-height: 1.6;">Direct Trade, Innovación Termodinámica y Obsesión por el SCA Score (86+).</p></div>
     </div>
-
     <div class="process-grid">
-        <div class="process-text reveal">
-            <div class="process-num">01</div>
-            <h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Sourcing de Precisión</h3>
-            <p style="line-height: 1.8; color: #555;">Colaboramos con agrónomos y productores experimentales. Seleccionamos varietales únicos (Geisha, Papayo, Ombligón, Sidra) procesados mediante shock térmico, fermentaciones lácticas y maceración carbónica. Saltamos a los importadores ciegos para forjar relaciones <i>Direct Trade</i>.</p>
-        </div>
+        <div class="process-text reveal"><div class="process-num">01</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Sourcing de Precisión</h3><p style="line-height: 1.8; color: #555;">Colaboramos con agrónomos y productores experimentales. Seleccionamos varietales únicos procesados mediante shock térmico, fermentaciones lácticas y maceración carbónica.</p></div>
         <img src="https://images.unsplash.com/photo-1524350876685-274059332603?auto=format&fit=crop&q=80&w=800" class="process-img reveal">
-
         <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800" class="process-img reveal" style="grid-row: 2;">
-        <div class="process-text reveal" style="grid-row: 2;">
-            <div class="process-num">02</div>
-            <h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Roast Profiling</h3>
-            <p style="line-height: 1.8; color: #555;">No tostamos por color, tostamos por software. Analizamos la Tasa de Aumento (RoR) mediante sensores PT100 y controlamos el desarrollo térmico para maximizar la dulzura enzimática de cada lote, respetando el terroir y la estructura celular del grano. Todo en un tostador de lecho fluido con cero huella de carbono.</p>
-        </div>
-
-        <div class="process-text reveal">
-            <div class="process-num">03</div>
-            <h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">QA & Transparencia</h3>
-            <p style="line-height: 1.8; color: #555;">Cada bache se cata a ciegas bajo estrictos protocolos de la Specialty Coffee Association. Publicamos nuestras curvas de tueste y te entregamos calculadoras de extracción algorítmicas (Brew Lab) para asegurar la taza perfecta.</p>
-        </div>
+        <div class="process-text reveal" style="grid-row: 2;"><div class="process-num">02</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">Roast Profiling</h3><p style="line-height: 1.8; color: #555;">No tostamos por color, tostamos por software. Analizamos la Tasa de Aumento (RoR) mediante sensores PT100 y controlamos el desarrollo térmico para maximizar la dulzura enzimática.</p></div>
+        <div class="process-text reveal"><div class="process-num">03</div><h3 style="font-family: var(--font-head); font-size: 32px; margin-bottom: 20px;">QA & Transparencia</h3><p style="line-height: 1.8; color: #555;">Cada bache se cata a ciegas bajo estrictos protocolos SCA. Publicamos nuestras curvas de tueste y te entregamos calculadoras de extracción algorítmicas (Brew Lab) para asegurar la taza perfecta.</p></div>
         <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=800" class="process-img reveal">
     </div>
-
     <h2 style="text-align:center; font-family:var(--font-head); font-size:32px; margin-bottom: 40px;">Timeline de Calibración</h2>
     <div class="timeline">
-        <div class="tl-item reveal">
-            <div class="tl-year">2022</div>
-            <div class="tl-content">
-                <h3>El Origen</h3>
-                <p>Fundación por Omar Mora, Sergio Mujica, Tomás Barrios, Roberto Yany y Toshiro Kohn. Un equipo multidisciplinario de Q-Graders, ingenieros, baristas y psiquiatras cuestionando el status quo del sobretueste.</p>
-            </div>
-        </div>
-        <div class="tl-item reveal">
-            <div class="tl-year">2024</div>
-            <div class="tl-content">
-                <h3>Expansión Técnica</h3>
-                <p>Se incorpora Rodrigo Rabajille. Implementación de perfiles termodinámicos predictivos y apertura del Lab Central en Santiago.</p>
-            </div>
-        </div>
-        <div class="tl-item reveal">
-            <div class="tl-year">2025</div>
-            <div class="tl-content">
-                <h3>Sinergia Artística</h3>
-                <p>Ingresa Jorge Rodriguez Becker. Fusión de diseño paramétrico con nuestra identidad visual. Pulso se consolida como vanguardia de especialidad en Sudamérica.</p>
-            </div>
-        </div>
+        <div class="tl-item reveal"><div class="tl-year">2022</div><div class="tl-content"><h3>El Origen</h3><p>Fundación por Omar Mora, Sergio Mujica, Tomás Barrios, Roberto Yany y Toshiro Kohn. Un equipo multidisciplinario cuestionando el status quo.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-year">2024</div><div class="tl-content"><h3>Expansión Técnica</h3><p>Se incorpora Rodrigo Rabajille. Implementación de perfiles termodinámicos predictivos y apertura del Lab Central en Santiago.</p></div></div>
+        <div class="tl-item reveal"><div class="tl-year">2025</div><div class="tl-content"><h3>Sinergia Artística</h3><p>Ingresa Jorge Rodriguez Becker. Fusión de diseño paramétrico con nuestra identidad visual. Vanguardia en Sudamérica.</p></div></div>
     </div>
 </main>
 
 <main id="contact" class="view container">
     <div class="form-layout reveal">
-        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase; margin-bottom:10px;">Contacto</h1>
-        <p style="color:#666; margin-bottom:40px;">¿Dudas sobre tu pedido, envíos o calibración en casa? Escríbenos.</p>
-        <form onsubmit="event.preventDefault(); alert('Mensaje encriptado y enviado a la central.');">
-            <div class="input-group"><label>Nombre Completo</label><input type="text" required></div>
-            <div class="input-group"><label>Email de Contacto</label><input type="email" required></div>
-            <div class="input-group"><label>Mensaje / ID de Pedido</label><textarea rows="5" required></textarea></div>
-            <button type="submit" class="btn btn-cobalt" style="width:100%;">Transmitir Señal</button>
+        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase;">Contacto</h1>
+        <form onsubmit="event.preventDefault(); alert('Mensaje enviado.');">
+            <div class="input-group"><label>Nombre</label><input type="text" required></div>
+            <div class="input-group"><label>Email</label><input type="email" required></div>
+            <div class="input-group"><label>Mensaje</label><textarea rows="5" required></textarea></div>
+            <button type="submit" class="btn btn-cobalt" style="width:100%;">Transmitir</button>
         </form>
     </div>
 </main>
 
 <main id="b2b" class="view container">
     <div class="form-layout reveal">
-        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase; margin-bottom:10px;">Wholesale B2B</h1>
-        <p style="color:#666; margin-bottom:40px;">Únete al latido. Provisión técnica para cafeterías de especialidad, hoteles y restaurantes que exigen la máxima pureza y trazabilidad.</p>
-        <form onsubmit="event.preventDefault(); alert('Solicitud B2B recibida. Un agente se contactará a la brevedad.');">
+        <h1 style="font-family:var(--font-head); font-size:48px; text-transform:uppercase;">Wholesale B2B</h1>
+        <p style="color:#666; margin-bottom:40px;">Provisión técnica para cafeterías que exigen la máxima pureza.</p>
+        <form onsubmit="event.preventDefault(); alert('Solicitud B2B recibida.');">
             <div class="input-group"><label>Empresa / Proyecto</label><input type="text" required></div>
             <div class="input-group"><label>Nombre del Contacto</label><input type="text" required></div>
             <div class="input-group"><label>Consumo Estimado (Kg/Mes)</label><input type="number" required></div>
@@ -542,30 +588,13 @@
 <footer>
     <div class="container">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 60px; margin-bottom: 60px;">
-            <div>
-                <div class="logo-full" style="color: #FFF; font-size: 40px; letter-spacing: -2px;">PULSO.</div>
-                <p style="color: #888; margin-top: 20px; font-size: 14px; line-height: 1.6;">Professional Grade Roasting Studio.<br>Data-Driven Coffee.</p>
-            </div>
-            <div class="footer-col">
-                <h4 style="color: var(--accent); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px; text-transform: uppercase;">Catálogo</h4>
-                <a href="#/shop">Single Origins</a>
-                <a href="#/shop">Blends</a>
-                <a href="#/shop">Hardware</a>
-            </div>
-            <div class="footer-col">
-                <h4 style="color: var(--accent); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px; text-transform: uppercase;">Herramientas</h4>
-                <a href="#/lab">Brew Lab Pro</a>
-                <a href="#/oracle">Sensory Oracle</a>
-            </div>
-            <div class="footer-col">
-                <h4 style="color: var(--accent); font-family: var(--font-mono); font-size: 12px; margin-bottom: 20px; text-transform: uppercase;">Nosotros</h4>
-                <a href="#/about">Historia y Misión</a>
-                <a href="#/b2b">Contacto B2B</a>
-            </div>
+            <div><div class="logo-full" style="color:#fff;">PULSO.</div><p style="color:#888; margin-top:20px; font-size:13px;">Professional Grade Roasting Studio.</p></div>
+            <div class="footer-col"><h4>Catálogo</h4><a href="#/shop">Origins</a><a href="#/shop">Blends</a></div>
+            <div class="footer-col"><h4>Herramientas</h4><a href="#/lab">Brew Lab Pro</a><a href="#/oracle">Sensory Oracle</a></div>
+            <div class="footer-col"><h4>Nosotros</h4><a href="#/about">Historia</a><a href="#/b2b">B2B</a></div>
         </div>
-        <div style="border-top: 1px solid #222; padding-top: 20px; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: #666; text-transform: uppercase;">
-            <span>© 2026 Pulso Coffee Roasters.</span>
-            <span>Never Settle.</span>
+        <div style="border-top: 1px solid #222; padding-top:20px; font-family:var(--font-mono); font-size:10px; color:#666; display:flex; justify-content:space-between;">
+            <span>© 2026 PULSO COFFEE ROASTERS.</span><span>NEVER SETTLE.</span>
         </div>
     </div>
 </footer>
@@ -575,28 +604,25 @@
     'use strict';
 
     const formatCLP = (num) => new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(num);
-
-    // MOCKUP BAG CLEAN Y ESTANDARIZADO PARA TODOS LOS CAFÉS
     const COFFEE_BAG_IMG = 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?q=80&w=800';
 
     const DB = {
         catalog: [
-            { id: 1, cat: 'origin', badge: 'Washed', name: 'Colombia Finca El Paraíso', basePrice: 18900, img: COFFEE_BAG_IMG, desc: 'Lavado con choque térmico. Notas increíbles a yogurt de frutilla y durazno blanco.', flavors: ['Frutilla', 'Yogurt', 'Durazno Blanco'], radar: [8, 9, 6, 8, 7], trace: { origen: 'Cauca, Colombia', productor: 'Diego Bermúdez', finca: 'El Paraíso', varietal: 'Castillo', altitud: '1930 m.s.n.m.', proceso: 'Lavado Choque Térmico', tueste: 'Claro', agtron: '82 (Gourmet)', malla: '16+' } },
-            { id: 2, cat: 'origin', badge: 'Natural', name: 'Etiopía Guji Hambela', basePrice: 19500, img: COFFEE_BAG_IMG, desc: 'Secado al sol africano. Cuerpo licoroso y un dulzor inmenso a frutos negros.', flavors: ['Arándanos', 'Mermelada', 'Cacao'], radar: [9, 7, 8, 6, 8], trace: { origen: 'Guji, Etiopía', productor: 'Hambela Estate', finca: 'Hambela', varietal: 'Heirloom', altitud: '2100 m.s.n.m.', proceso: 'Natural Secado en Camas', tueste: 'Medio-Claro', agtron: '75 (Gourmet)', malla: '14+' } },
-            { id: 3, cat: 'origin', badge: 'Honey', name: 'Perú Cajamarca Caturra', basePrice: 17000, img: COFFEE_BAG_IMG, desc: 'Proceso Honey amarillo. Cuerpo meloso con notas a manzana asada y nuez pecán.', flavors: ['Chancaca', 'Manzana Asada', 'Nuez'], radar: [9, 5, 8, 4, 8], trace: { origen: 'Cajamarca, Perú', productor: 'Cooperativa local', finca: 'Varias Fincas', varietal: 'Caturra Amarillo', altitud: '1750 m.s.n.m.', proceso: 'Yellow Honey', tueste: 'Medio', agtron: '65 (Gourmet)', malla: '15+' } },
-            { id: 4, cat: 'origin', badge: 'Washed', name: 'Guatemala Antigua', basePrice: 16500, img: COFFEE_BAG_IMG, desc: 'Equilibrio perfecto. Acidez de manzana verde con un final a chocolate con leche.', flavors: ['Manzana Verde', 'Chocolate', 'Canela'], radar: [8, 6, 7, 5, 7], trace: { origen: 'Antigua, Guatemala', productor: 'Finca Medina', finca: 'Medina Estate', varietal: 'Bourbon / Typica', altitud: '1600 m.s.n.m.', proceso: 'Lavado Tradicional', tueste: 'Medio', agtron: '62 (Gourmet)', malla: '17+' } },
-            { id: 5, cat: 'origin', badge: 'Pulped', name: 'Brasil Cerrado Mineiro', basePrice: 15900, img: COFFEE_BAG_IMG, desc: 'Cuerpo pesado y bajísima acidez. Praliné, maní tostado y azúcar morena.', flavors: ['Praliné', 'Maní', 'Azúcar Morena'], radar: [10, 2, 9, 2, 6], trace: { origen: 'Cerrado Mineiro, Brasil', productor: 'Daterra', finca: 'Daterra Estate', varietal: 'Catuai / Mundo Novo', altitud: '1150 m.s.n.m.', proceso: 'Pulped Natural', tueste: 'Medio-Oscuro', agtron: '55 (Gourmet)', malla: '16+' } },
-            { id: 6, cat: 'blend', badge: 'House', name: 'Baseline 01', basePrice: 14900, img: COFFEE_BAG_IMG, desc: 'Motor para espresso. Chocolate 80% y caramelo. Consistente, pesado y dulce.', flavors: ['Chocolate 80%', 'Praliné', 'Caramelo'], radar: [9, 3, 10, 2, 8], trace: { origen: 'Brasil / Colombia', productor: 'Varios', finca: 'Blend de Origen', varietal: 'Blend Arábica', altitud: '1100 - 1800 m.s.n.m.', proceso: 'Lavado y Natural', tueste: 'Medio-Oscuro', agtron: '58 (Gourmet)', malla: 'Mix' } },
-            { id: 7, cat: 'blend', badge: 'Morning', name: 'Bright Heart', basePrice: 15900, img: COFFEE_BAG_IMG, desc: 'Blend frutal para empezar el día con claridad y energía.', flavors: ['Limón', 'Miel', 'Té Negro'], radar: [7, 8, 5, 6, 7], trace: { origen: 'Etiopía / Perú', productor: 'Varios', finca: 'Blend Frutal', varietal: 'Heirloom / Caturra', altitud: '1700 - 2100 m.s.n.m.', proceso: 'Lavado', tueste: 'Medio-Claro', agtron: '72 (Gourmet)', malla: 'Mix' } },
-            { id: 8, cat: 'blend', badge: 'Funky', name: 'Wild Pulse', basePrice: 17500, img: COFFEE_BAG_IMG, desc: 'Blend de procesos experimentales. Sabores licorosos, piña madura y ron.', flavors: ['Piña', 'Ron', 'Cacao Nibs'], radar: [8, 7, 6, 8, 9], trace: { origen: 'Colombia Anaeróbico / Brasil', productor: 'Varios', finca: 'Blend Experimental', varietal: 'Mix Arábica', altitud: 'Varios', proceso: 'Anaeróbico / Pulped', tueste: 'Medio', agtron: '68 (Gourmet)', malla: 'Mix' } },
-            { id: 9, cat: 'blend', badge: 'Decaf', name: 'Midnight Velvet', basePrice: 16900, img: COFFEE_BAG_IMG, desc: 'Descafeinado Swiss Water. Todo el sabor, cero cafeína.', flavors: ['Nuez', 'Miel', 'Cacao'], radar: [8, 4, 8, 3, 6], trace: { origen: 'Chiapas, México', productor: 'Varios', finca: 'Varios', varietal: 'Typica', altitud: '1500 m.s.n.m.', proceso: 'Swiss Water Decaf', tueste: 'Medio', agtron: '60 (Gourmet)', malla: '15+' } },
-            { id: 10, cat: 'premium', badge: 'Geisha', name: 'Panamá Esmeralda', basePrice: 45000, img: COFFEE_BAG_IMG, desc: 'El rey de los cafés. Lavado, con notas explosivas a jazmín, bergamota y durazno.', flavors: ['Jazmín', 'Durazno', 'Té Verde'], radar: [8, 10, 3, 10, 10], trace: { origen: 'Boquete, Panamá', productor: 'Familia Peterson', finca: 'Hacienda La Esmeralda', varietal: 'Geisha', altitud: '1700 m.s.n.m.', proceso: 'Lavado', tueste: 'Claro', agtron: '85 (Gourmet)', malla: '15+' } },
-            { id: 11, cat: 'premium', badge: 'SL28', name: 'Kenia Nyeri Carbonic', basePrice: 32000, img: COFFEE_BAG_IMG, desc: 'Maceración carbónica. Una acidez brillante a grosella negra y vino tinto.', flavors: ['Mora', 'Vino Tinto', 'Grosella'], radar: [6, 10, 6, 7, 9], trace: { origen: 'Nyeri, Kenia', productor: 'Othaya Farm', finca: 'Othaya', varietal: 'SL28 / SL34', altitud: '1850 m.s.n.m.', proceso: 'Maceración Carbónica', tueste: 'Claro', agtron: '80 (Gourmet)', malla: 'AA (18+)' } },
-            { id: 12, cat: 'premium', badge: 'Ombligón', name: 'Colombia Finca El Diviso', basePrice: 35000, img: COFFEE_BAG_IMG, desc: 'Varietal exótico. Notas licorosas, cereza negra y cacao.', flavors: ['Cereza Negra', 'Licor', 'Cacao'], radar: [9, 8, 5, 8, 9], trace: { origen: 'Huila, Colombia', productor: 'Nestor Lasso', finca: 'El Diviso', varietal: 'Ombligón', altitud: '1750 m.s.n.m.', proceso: 'Natural Oxidación 80h', tueste: 'Claro', agtron: '78 (Gourmet)', malla: '16+' } },
-            { id: 13, cat: 'premium', badge: 'Heirloom', name: 'Yemen Forest Natural', basePrice: 38000, img: COFFEE_BAG_IMG, desc: 'Café silvestre secado al sol. Especias y cardamomo.', flavors: ['Cardamomo', 'Higos', 'Especias'], radar: [8, 4, 9, 9, 8], trace: { origen: 'Sanaa, Yemen', productor: 'Qima Coffee', finca: 'Wild Forest', varietal: 'Yemenia (Heirloom)', altitud: '2200 m.s.n.m.', proceso: 'Natural Tradicional', tueste: 'Medio', agtron: '66 (Gourmet)', malla: '14+' } },
-            { id: 14, cat: 'pack', badge: 'Bundle', name: 'The Tasting Flight', basePrice: 28000, img: COFFEE_BAG_IMG, desc: '3 bolsas de 100g. Descubre Lavado, Natural y Honey.', flavors: ['Varios'], trace: { origen: 'Global', productor: 'Varios', proceso: 'Mixto', tueste: 'Variado' } },
+            { id: 1, cat: 'origin', badge: 'Washed', name: 'Colombia Finca El Paraíso', basePrice: 18900, img: COFFEE_BAG_IMG, desc: 'Lavado con choque térmico. Notas increíbles a yogurt de frutilla.', flavors: ['Frutilla', 'Yogurt', 'Durazno Blanco'], radar: [8, 9, 6, 8, 7], trace: { origen: 'Cauca, Colombia', productor: 'Diego Bermúdez', finca: 'El Paraíso', varietal: 'Castillo', altitud: '1930 m.s.n.m.', proceso: 'Lavado Choque Térmico', tueste: 'Claro (82 Agtron)', malla: '16+' } },
+            { id: 2, cat: 'origin', badge: 'Natural', name: 'Etiopía Guji Hambela', basePrice: 19500, img: COFFEE_BAG_IMG, desc: 'Secado al sol africano. Cuerpo licoroso y un dulzor inmenso a frutos negros.', flavors: ['Arándanos', 'Mermelada', 'Cacao'], radar: [9, 7, 8, 6, 8], trace: { origen: 'Guji, Etiopía', productor: 'Hambela Estate', finca: 'Hambela', varietal: 'Heirloom', altitud: '2100 m.s.n.m.', proceso: 'Natural Secado en Camas', tueste: 'Medio-Claro (75 Agtron)', malla: '14+' } },
+            { id: 3, cat: 'origin', badge: 'Honey', name: 'Perú Cajamarca Caturra', basePrice: 17000, img: COFFEE_BAG_IMG, desc: 'Proceso Honey amarillo. Cuerpo meloso con notas a manzana asada y nuez pecán.', flavors: ['Chancaca', 'Manzana Asada', 'Nuez'], radar: [9, 5, 8, 4, 8], trace: { origen: 'Cajamarca, Perú', productor: 'Cooperativa local', finca: 'Varias Fincas', varietal: 'Caturra Amarillo', altitud: '1750 m.s.n.m.', proceso: 'Yellow Honey', tueste: 'Medio (65 Agtron)', malla: '15+' } },
+            { id: 4, cat: 'origin', badge: 'Washed', name: 'Guatemala Antigua', basePrice: 16500, img: COFFEE_BAG_IMG, desc: 'Equilibrio perfecto. Acidez de manzana verde con un final a chocolate con leche.', flavors: ['Manzana Verde', 'Chocolate', 'Canela'], radar: [8, 6, 7, 5, 7], trace: { origen: 'Antigua, Guatemala', productor: 'Finca Medina', finca: 'Medina Estate', varietal: 'Bourbon / Typica', altitud: '1600 m.s.n.m.', proceso: 'Lavado Tradicional', tueste: 'Medio (62 Agtron)', malla: '17+' } },
+            { id: 5, cat: 'origin', badge: 'Pulped', name: 'Brasil Cerrado Mineiro', basePrice: 15900, img: COFFEE_BAG_IMG, desc: 'Cuerpo pesado y bajísima acidez. Praliné, maní tostado y azúcar morena.', flavors: ['Praliné', 'Maní', 'Azúcar Morena'], radar: [10, 2, 9, 2, 6], trace: { origen: 'Cerrado Mineiro, Brasil', productor: 'Daterra', finca: 'Daterra Estate', varietal: 'Catuai / Mundo Novo', altitud: '1150 m.s.n.m.', proceso: 'Pulped Natural', tueste: 'Medio-Oscuro (55 Agtron)', malla: '16+' } },
+            { id: 6, cat: 'blend', badge: 'House', name: 'Baseline 01', basePrice: 14900, img: COFFEE_BAG_IMG, desc: 'Motor para espresso. Chocolate 80% y caramelo. Consistente, pesado y dulce.', flavors: ['Chocolate 80%', 'Praliné', 'Caramelo'], radar: [9, 3, 10, 2, 8], trace: { origen: 'Brasil / Colombia', productor: 'Varios', finca: 'Blend de Origen', varietal: 'Blend Arábica', altitud: '1100 - 1800 m.s.n.m.', proceso: 'Lavado y Natural', tueste: 'Medio-Oscuro (58 Agtron)', malla: 'Mix' } },
+            { id: 7, cat: 'blend', badge: 'Morning', name: 'Bright Heart', basePrice: 15900, img: COFFEE_BAG_IMG, desc: 'Blend frutal para empezar el día con claridad y energía.', flavors: ['Limón', 'Miel', 'Té Negro'], radar: [7, 8, 5, 6, 7], trace: { origen: 'Etiopía / Perú', productor: 'Varios', finca: 'Blend Frutal', varietal: 'Heirloom / Caturra', altitud: '1700 - 2100 m.s.n.m.', proceso: 'Lavado', tueste: 'Medio-Claro (72 Agtron)', malla: 'Mix' } },
+            { id: 8, cat: 'blend', badge: 'Funky', name: 'Wild Pulse', basePrice: 17500, img: COFFEE_BAG_IMG, desc: 'Blend de procesos experimentales. Sabores licorosos, piña madura y ron.', flavors: ['Piña', 'Ron', 'Cacao Nibs'], radar: [8, 7, 6, 8, 9], trace: { origen: 'Colombia Anaeróbico / Brasil', productor: 'Varios', finca: 'Blend Experimental', varietal: 'Mix Arábica', altitud: 'Varios', proceso: 'Anaeróbico / Pulped', tueste: 'Medio (68 Agtron)', malla: 'Mix' } },
+            { id: 9, cat: 'blend', badge: 'Decaf', name: 'Midnight Velvet', basePrice: 16900, img: COFFEE_BAG_IMG, desc: 'Descafeinado Swiss Water. Todo el sabor, cero cafeína.', flavors: ['Nuez', 'Miel', 'Cacao'], radar: [8, 4, 8, 3, 6], trace: { origen: 'Chiapas, México', productor: 'Varios', finca: 'Varios', varietal: 'Typica', altitud: '1500 m.s.n.m.', proceso: 'Swiss Water Decaf', tueste: 'Medio (60 Agtron)', malla: '15+' } },
+            { id: 10, cat: 'premium', badge: 'Geisha', name: 'Panamá Esmeralda', basePrice: 45000, img: COFFEE_BAG_IMG, desc: 'El rey de los cafés. Lavado, con notas explosivas a jazmín, bergamota y durazno.', flavors: ['Jazmín', 'Durazno', 'Té Verde'], radar: [8, 10, 3, 10, 10], trace: { origen: 'Boquete, Panamá', productor: 'Familia Peterson', finca: 'Hacienda La Esmeralda', varietal: 'Geisha', altitud: '1700 m.s.n.m.', proceso: 'Lavado', tueste: 'Claro (85 Agtron)', malla: '15+' } },
+            { id: 11, cat: 'premium', badge: 'SL28', name: 'Kenia Nyeri Carbonic', basePrice: 32000, img: COFFEE_BAG_IMG, desc: 'Maceración carbónica. Una acidez brillante a grosella negra y vino tinto.', flavors: ['Mora', 'Vino Tinto', 'Grosella'], radar: [6, 10, 6, 7, 9], trace: { origen: 'Nyeri, Kenia', productor: 'Othaya Farm', finca: 'Othaya', varietal: 'SL28 / SL34', altitud: '1850 m.s.n.m.', proceso: 'Maceración Carbónica', tueste: 'Claro (80 Agtron)', malla: 'AA (18+)' } },
+            { id: 12, cat: 'premium', badge: 'Ombligón', name: 'Colombia Finca El Diviso', basePrice: 35000, img: COFFEE_BAG_IMG, desc: 'Varietal exótico. Notas licorosas, cereza negra y cacao.', flavors: ['Cereza Negra', 'Licor', 'Cacao'], radar: [9, 8, 5, 8, 9], trace: { origen: 'Huila, Colombia', productor: 'Nestor Lasso', finca: 'El Diviso', varietal: 'Ombligón', altitud: '1750 m.s.n.m.', proceso: 'Natural Oxidación 80h', tueste: 'Claro (78 Agtron)', malla: '16+' } },
+            { id: 13, cat: 'premium', badge: 'Heirloom', name: 'Yemen Forest Natural', basePrice: 38000, img: COFFEE_BAG_IMG, desc: 'Café silvestre secado al sol. Especias y cardamomo.', flavors: ['Cardamomo', 'Higos', 'Especias'], radar: [8, 4, 9, 9, 8], trace: { origen: 'Sanaa, Yemen', productor: 'Qima Coffee', finca: 'Wild Forest', varietal: 'Yemenia (Heirloom)', altitud: '2200 m.s.n.m.', proceso: 'Natural Tradicional', tueste: 'Medio (66 Agtron)', malla: '14+' } },
+            { id: 14, cat: 'pack', badge: 'Bundle', name: 'The Tasting Flight', basePrice: 28000, img: COFFEE_BAG_IMG, desc: '3 bolsas de 100g. Descubre Lavado, Natural y Honey.', flavors: ['Varios'], trace: { origen: 'Global', productor: 'Varios', proceso: 'Mixto', tueste: 'Variado', agtron: 'Varios', malla: 'Varios' } },
             
-            // Accesorios / Métodos con fotos específicas
             { id: 15, cat: 'machines', badge: 'Pro', name: 'Lelit Bianca V3', basePrice: 2450000, img: 'https://images.unsplash.com/photo-1510526338181-49635039433d?q=80&w=600', desc: 'Control de flujo total para el hogar. Doble caldera y bomba rotativa.' },
             { id: 16, cat: 'methods', badge: 'Gear', name: 'Chemex 6 Tazas', basePrice: 55000, img: 'https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=600', desc: 'El diseño clásico para extracciones ultra limpias.' },
             { id: 17, cat: 'accessories', badge: 'Gear', name: 'Balanza Acaia Pearl', basePrice: 180000, img: 'https://images.unsplash.com/photo-1585237730962-43ce9c2295a0?q=80&w=600', desc: 'La balanza definitiva de precisión.' },
@@ -640,7 +666,7 @@
         brewTimer: { interval: null, seconds: 0 }
     };
 
-    // FUNCIÓN DEBOUNCE: Previene memory leaks y sobrecarga en el Event Loop
+    // FUNCIÓN DEBOUNCE: Previene memory leaks
     const debounce = (func, delay) => {
         let timeoutId;
         return (...args) => {
@@ -676,7 +702,6 @@
                 return;
             }
 
-            // OPTIMIZACIÓN: Cálculo puro con reduce, renderizado sin side-effects en el map
             const total = AppState.cart.reduce((acc, item) => acc + item.price, 0);
             
             this.cartBody.innerHTML = AppState.cart.map((item, idx) => `
@@ -697,9 +722,8 @@
             val = val.toLowerCase();
             if(val.length < 2) { this.searchDrop.classList.remove('active'); return; }
             
-            // OPTIMIZACIÓN: Desestructuración y evaluación eficiente
             const hits = DB.catalog.filter(({ name, trace }) => 
-                name.toLowerCase().includes(val) || (trace && trace.origen.toLowerCase().includes(val))
+                name.toLowerCase().includes(val) || (trace && trace.origen && trace.origen.toLowerCase().includes(val))
             );
 
             if(hits.length > 0) {
@@ -716,24 +740,29 @@
         },
 
         renderShop(cat, targetBtn) {
-            // OPTIMIZACIÓN: Menos accesos al DOM limitando el querySelectorAll al contenedor padre
             const filterContainer = document.getElementById('shop-filters');
             if(filterContainer) {
-                filterContainer.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                filterContainer.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
                 if(targetBtn) {
                     targetBtn.classList.add('active');
                 } else {
-                    const defaultBtn = filterContainer.querySelector(`.tab-btn[data-cat="${cat}"]`);
+                    const defaultBtn = filterContainer.querySelector(`.filter-item[data-cat="${cat}"]`);
                     if(defaultBtn) defaultBtn.classList.add('active');
                 }
             }
             
-            const items = cat === 'all' ? DB.catalog : DB.catalog.filter(p => p.cat === cat);
+            let items = cat === 'all' ? [...DB.catalog] : DB.catalog.filter(p => p.cat === cat);
+            
+            const sortVal = document.getElementById('sort-select')?.value || 'default';
+            if (sortVal === 'price-asc') items.sort((a,b) => a.basePrice - b.basePrice);
+            else if (sortVal === 'price-desc') items.sort((a,b) => b.basePrice - a.basePrice);
+            else if (sortVal === 'name-asc') items.sort((a,b) => a.name.localeCompare(b.name));
+
             const grid = document.getElementById('shop-grid');
             if(!grid) return;
 
             grid.innerHTML = items.map(p => `
-                <div class="card reveal" data-action="view-product" data-id="${p.id}">
+                <div class="card reveal active" data-action="view-product" data-id="${p.id}">
                     <div class="card-img"><img src="${p.img}" loading="lazy"></div>
                     <div class="card-body">
                         <div class="card-meta">${p.badge}</div>
@@ -746,7 +775,6 @@
                     </div>
                 </div>
             `).join('');
-            observeElements();
         },
 
         renderProduct(id) {
@@ -803,7 +831,7 @@
 
             if(relatedItems.length > 0) {
                 relatedHtml = `
-                <section class="related-section reveal">
+                <section class="related-section reveal active">
                     <h3>Recomendados para ti</h3>
                     <div class="grid">
                         ${relatedItems.map(r => `
@@ -964,7 +992,6 @@
             btn.innerText = "DETENER RELOJ";
             btn.style.background = "#fff"; btn.style.color = "#000";
             
-            // OPTIMIZACIÓN: Cachear la lista de nodos paso una sola vez antes del intervalo
             const stepNodes = Array.from(document.querySelectorAll('.step-item'));
             
             AppState.brewTimer.interval = setInterval(() => {
@@ -973,7 +1000,6 @@
                 document.getElementById('b-timer').innerText = `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
                 
                 let activeIdx = -1;
-                // Búsqueda lineal eficiente O(s) donde s es muy pequeño (cantidad de pasos)
                 g.steps.forEach((step, idx) => { if(s >= step.time) activeIdx = idx; });
                 
                 stepNodes.forEach((el, idx) => el.classList.toggle('active', idx === activeIdx));
@@ -988,7 +1014,6 @@
             document.getElementById('ai-results').innerHTML = '';
             
             setTimeout(() => {
-                // OPTIMIZACIÓN: Algoritmo unificado de cálculo de score y ordenamiento. Complejidad reducida.
                 const results = DB.catalog
                     .filter(c => ['origin', 'blend', 'premium'].includes(c.cat))
                     .map(m => {
@@ -1025,7 +1050,6 @@
         }
     };
 
-    // OPTIMIZACIÓN: Action Dispatcher (Complejidad de búsqueda O(1))
     const Actions = {
         'toggle-cart': () => UI.toggleCart(),
         'filter': (t) => UI.renderShop(t.dataset.cat, t),
@@ -1113,13 +1137,18 @@
             if(!e.target.closest('.nav-search')) UI.searchDrop.classList.remove('active');
             return;
         }
-        
-        // Ejecución O(1) del Action Dispatcher
         const action = Actions[t.dataset.action];
         if (action) action(t);
     });
 
-    // Enlace de búsqueda con Debounce (300ms)
+    document.body.addEventListener('change', e => {
+        const t = e.target;
+        if(t.dataset.action === 'sort-catalog') {
+            const activeCat = document.querySelector('.filter-item.active')?.dataset.cat || 'all';
+            UI.renderShop(activeCat);
+        }
+    });
+
     UI.searchInp.addEventListener('input', debounce(e => UI.handleSearch(e.target.value), 300));
 
     let rafId;
@@ -1184,7 +1213,10 @@
                     `).join('');
                 }
             }
-            if(route === 'shop' && document.getElementById('shop-grid').children.length === 0) UI.renderShop('all');
+            if(route === 'shop') {
+                const activeCat = document.querySelector('.filter-item.active')?.dataset.cat || 'all';
+                UI.renderShop(activeCat);
+            }
             if(route === 'lab' && document.getElementById('guide-nav').children.length === 0) UI.renderGuides('filter');
             
             window.scrollTo({ top: 0, behavior: 'instant' });
